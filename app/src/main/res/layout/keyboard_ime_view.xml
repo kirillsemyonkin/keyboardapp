@@ -1,0 +1,6 @@
+<kirillsemyonkin.keyboardapp.KeyboardIMEView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Widget.Theme.KeyboardApp.KeyboardIMEView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true" />

@@ -1,0 +1,5 @@
+<resources>
+    <style name="Widget.Theme.KeyboardApp.KeyboardIMEView" parent="">
+        <item name="android:background">@color/gray_400</item>
+    </style>
+</resources>
