@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<keyboardLocale
+    defaultMode="lowercase">
+    <layout mode="lowercase">
+        <row>
+            <key>1</key>
+            <key>2</key>
+            <key>3</key>
+            <key>4</key>
+            <key>5</key>
+            <key>6</key>
+            <key>7</key>
+            <key>8</key>
+            <key>9</key>
+            <key>0</key>
+        </row>
+        <row>
+            <key>q</key>
+            <key>w</key>
+            <key>
+                e
+                <alt>èéêëē</alt>
+            </key>
+            <key>r</key>
+            <key>t</key>
+            <key>y</key>
+            <key>
+                u
+                <alt>ûüùúū</alt>
+            </key>
+            <key>
+                i
+                <alt>ûüùúū</alt>
+            </key>
+            <key>
+                o
+                <alt>ôöòóœøōõ</alt>
+            </key>
+            <key>p</key>
+        </row>
+        <row>
+            <key>
+                a
+                <alt>àáâäæãåā</alt>
+            </key>
+            <key>
+                s
+                <alt>ß</alt>
+            </key>
+            <key>d</key>
+            <key>f</key>
+            <key>e</key>
+            <key>g</key>
+            <key>h</key>
+            <key>j</key>
+            <key>k</key>
+            <key>l</key>
+        </row>
+        <row>
+            <key growthFactor="1.5">
+                <icon>shift</icon>
+                <switch>uppercase</switch>
+            </key>
+            <key>z</key>
+            <key>x</key>
+            <key>
+                c
+                <alt>ç</alt>
+            </key>
+            <key>v</key>
+            <key>b</key>
+            <key>
+                n
+                <alt>ñ</alt>
+            </key>
+            <key>m</key>
+            <key growthFactor="1.5">
+                <icon>backspace</icon>
+                <backspace />
+            </key>
+        </row>
+        <row>
+            <key growthFactor="1.5">
+                !#1
+                <switch>symbol1</switch>
+            </key>
+            <key>
+                ,
+                <alt>|?!@#$%{}[];</alt>
+            </key>
+            <key growthFactor="5">
+                <icon>space</icon>
+                <commit>\s</commit>
+            </key>
+            <key>
+                .
+                <alt>\/^&amp;*()"'&lt;&gt;:</alt>
+            </key>
+            <key growthFactor="1.5">
+                <icon>enter</icon>
+                <commit>\n</commit>
+            </key>
+        </row>
+    </layout>
+    <layout mode="uppercase">
+
+    </layout>
+    <layout mode="symbol1">
+
+    </layout>
+    <layout mode="symbol2">
+
+    </layout>
+</keyboardLocale>
