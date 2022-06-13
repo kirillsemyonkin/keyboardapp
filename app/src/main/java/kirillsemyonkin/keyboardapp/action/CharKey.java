@@ -6,16 +6,15 @@ import kirillsemyonkin.keyboardapp.icon.KeyIcon;
 /**
  * This key simply appends a character to a given composing text.
  */
-public class SimpleCharAppendKey extends KeyboardKey {
+public class CharKey extends KeyboardKey {
     private final char character;
 
-    public SimpleCharAppendKey(KeyIcon icon, float growthFactor) {
-        super(icon, growthFactor);
+    public CharKey(KeyIcon icon, float growthFactor, boolean highlight) {
+        super(icon, growthFactor, highlight);
         this.character = icon.character();
     }
 
     public void action(KeyboardService service) {
-        service.updateComposingText(
-            service.currentComposingText() + character);
+        service.appendToComposingText(character);
     }
 }

@@ -3,6 +3,7 @@ package kirillsemyonkin.keyboardapp;
 import static org.xmlpull.v1.XmlPullParser.END_TAG;
 import static org.xmlpull.v1.XmlPullParser.START_TAG;
 import static org.xmlpull.v1.XmlPullParser.TEXT;
+import static java.lang.Boolean.parseBoolean;
 import static java.lang.Float.parseFloat;
 import static java.lang.Integer.parseInt;
 import static java.lang.Math.max;
@@ -22,7 +23,7 @@ import java.util.Map.Entry;
 
 import kirillsemyonkin.keyboardapp.action.KeyboardKey;
 import kirillsemyonkin.keyboardapp.action.Keys;
-import kirillsemyonkin.keyboardapp.action.SimpleCharAppendKey;
+import kirillsemyonkin.keyboardapp.action.CharKey;
 import kirillsemyonkin.keyboardapp.action.SwitchModeKey;
 import kirillsemyonkin.keyboardapp.icon.KeyIcon;
 import kirillsemyonkin.keyboardapp.icon.PlainTextKeyIcon;
@@ -163,8 +164,11 @@ public final class KeyboardLocale {
             ? 1
             : max(1, parseFloat(growthFactorOpt));
 
+        var highlightOpt = parser.getAttributeValue(XMLNS_NULL, "highlight");
+        var highlight = parseBoolean(highlightOpt);
+
         var icon = parseIcon(parser);
-        return parseAction(parser, icon, growthFactor);
+        return parseAction(parser, icon, growthFactor, highlight);
     }
 
     private static KeyIcon parseIcon(XmlPullParser parser)
@@ -189,13 +193,14 @@ public final class KeyboardLocale {
         return icon;
     }
 
-    private static KeyboardKey parseAction(XmlPullParser parser, KeyIcon icon, float growthFactor)
+    private static KeyboardKey parseAction(XmlPullParser parser,
+                                           KeyIcon icon, float growthFactor, boolean highlight)
         throws XmlPullParserException,
         IOException {
         // char</key>
         if (parser.next() == END_TAG) {
             parser.require(END_TAG, XMLNS_NULL, "key");
-            return new SimpleCharAppendKey(icon, growthFactor);
+            return new CharKey(icon, growthFactor, highlight);
         }
 
         // <key>icon action</key>
@@ -205,7 +210,7 @@ public final class KeyboardLocale {
 
         var key = Keys
             .valueOf(action.toUpperCase())
-            .parse(parser, icon, growthFactor);
+            .parse(parser, icon, growthFactor, highlight);
 
         // Read </action>
         parser.next();

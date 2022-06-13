@@ -2,6 +2,7 @@ package kirillsemyonkin.keyboardapp.icon;
 
 import static kirillsemyonkin.keyboardapp.KeyboardAppView.KEY_TEXT;
 
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
@@ -22,7 +23,7 @@ public class PlainTextKeyIcon implements KeyIcon {
         return text.charAt(0);
     }
 
-    public void draw(Canvas canvas) {
+    public void draw(Canvas canvas, Resources resources) {
         var bounds = new Rect();
         KEY_TEXT.getTextBounds(text, 0, text.length(), bounds);
         var metrics = KEY_TEXT.getFontMetrics();

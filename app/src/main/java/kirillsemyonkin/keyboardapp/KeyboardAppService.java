@@ -1,5 +1,7 @@
 package kirillsemyonkin.keyboardapp;
 
+import static android.view.KeyEvent.*;
+import static android.view.KeyEvent.KEYCODE_ENTER;
 import static org.xmlpull.v1.XmlPullParser.END_TAG;
 import static org.xmlpull.v1.XmlPullParser.START_TAG;
 import static org.xmlpull.v1.XmlPullParser.TEXT;
@@ -8,6 +10,7 @@ import static kirillsemyonkin.keyboardapp.KeyboardLocale.XMLNS_NULL;
 import android.annotation.SuppressLint;
 import android.content.res.Resources;
 import android.inputmethodservice.InputMethodService;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 
@@ -137,19 +140,39 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
         return composingText;
     }
 
-    public void updateComposingText(String composingText) {
-        getCurrentInputConnection()
-            .setComposingText(this.composingText = composingText, 1);
+    public void appendToComposingText(char character) {
+        var newComposingText = composingText + character;
+        if (character == ' ') {
+            getCurrentInputConnection()
+                .commitText(newComposingText, newComposingText.length());
+            composingText = "";
+        } else {
+            getCurrentInputConnection()
+                .setComposingText(newComposingText, newComposingText.length());
+            composingText = newComposingText;
+        }
     }
 
-    public void commitComposingText(String composingText) {
+    public void backspaceComposingText() {
+        var newComposingText = composingText.substring(0, composingText.length() - 1);
         getCurrentInputConnection()
-            .commitText(composingText, 1);
-        this.composingText = "";
+            .setComposingText(newComposingText, newComposingText.length());
+        composingText = newComposingText;
     }
 
-    public void deleteSurroundingText(int beforeLength, int afterLength) {
+    public void backspaceText() {
+        sendDownUp(KEYCODE_DEL);
+    }
+
+    public void sendEnter() {
+        sendDownUp(KEYCODE_ENTER);
+        composingText = "";
+    }
+
+    private void sendDownUp(int keycode) {
         getCurrentInputConnection()
-            .deleteSurroundingText(beforeLength, afterLength);
+            .sendKeyEvent(new KeyEvent(ACTION_DOWN, keycode));
+        getCurrentInputConnection()
+            .sendKeyEvent(new KeyEvent(ACTION_UP, keycode));
     }
 }

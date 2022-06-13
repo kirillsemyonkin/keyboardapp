@@ -20,11 +20,13 @@ public class KeyboardAppView extends View {
     public static final float KEY_TEXT_FACTOR = 0.4f;
 
     public static final Paint KEY_BACKGROUND = new Paint();
+    public static final Paint KEY_BACKGROUND_HIGHLIGHT = new Paint();
     public static final Paint KEY_BACKGROUND_DOWN = new Paint();
     public static final Paint KEY_TEXT = new Paint(ANTI_ALIAS_FLAG);
 
     static {
         KEY_BACKGROUND.setColor(0xFF222222);
+        KEY_BACKGROUND_HIGHLIGHT.setColor(0xFF3366FF);
         KEY_BACKGROUND_DOWN.setColor(0xFF111111);
         KEY_TEXT.setColor(0xFFEEEEEE);
     }
@@ -134,14 +136,16 @@ public class KeyboardAppView extends View {
                     KEY_CORNER_RADIUS,
                     currentlyDown == key
                         ? KEY_BACKGROUND_DOWN
-                        : KEY_BACKGROUND);
+                        : (key.highlight()
+                        ? KEY_BACKGROUND_HIGHLIGHT
+                        : KEY_BACKGROUND));
 
                 canvas.save();
                 {
                     canvas.translate(
                         x + keyWidth / 2f,
                         y + keyHeight / 2f);
-                    key.icon().draw(canvas);
+                    key.icon().draw(canvas, getResources());
                 }
                 canvas.restore();
             }
@@ -170,9 +174,11 @@ public class KeyboardAppView extends View {
                 break;
             }
             case MotionEvent.ACTION_UP: {
-                if (currentlyDown == null || currentlyDown != key) break;
+                if (currentlyDown == null) break;
 
-                currentlyDown.action(service);
+                if (currentlyDown == key)
+                    currentlyDown.action(service);
+
                 currentlyDown = null;
 
                 break;

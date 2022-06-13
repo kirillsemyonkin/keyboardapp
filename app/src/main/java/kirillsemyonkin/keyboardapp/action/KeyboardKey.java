@@ -9,10 +9,12 @@ import kirillsemyonkin.keyboardapp.icon.KeyIcon;
 public abstract class KeyboardKey {
     private final KeyIcon icon;
     private final float growthFactor;
+    private final boolean highlight;
 
-    protected KeyboardKey(KeyIcon icon, float growthFactor) {
+    protected KeyboardKey(KeyIcon icon, float growthFactor, boolean highlight) {
         this.icon = icon;
         this.growthFactor = growthFactor;
+        this.highlight = highlight;
     }
 
     /**
@@ -40,4 +42,11 @@ public abstract class KeyboardKey {
      * @param service Service to perform the action upon.
      */
     public abstract void action(KeyboardService service);
+
+    /**
+     * Whether should the key background be colored.
+     */
+    public boolean highlight() {
+        return highlight;
+    }
 }

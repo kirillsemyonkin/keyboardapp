@@ -3,16 +3,37 @@
     defaultMode="lowercase">
     <layout mode="lowercase">
         <row>
-            <key>1</key>
-            <key>2</key>
-            <key>3</key>
-            <key>4</key>
-            <key>5</key>
+            <key>
+                1
+                <alt>¹½⅓¼⅛</alt>
+            </key>
+            <key>
+                2
+                <alt>²⅔</alt>
+            </key>
+            <key>
+                3
+                <alt>³¾⅜</alt>
+            </key>
+            <key>
+                4
+                <alt>⁴</alt>
+            </key>
+            <key>
+                5
+                <alt>⅝</alt>
+            </key>
             <key>6</key>
-            <key>7</key>
+            <key>
+                7
+                <alt>⅞</alt>
+            </key>
             <key>8</key>
             <key>9</key>
-            <key>0</key>
+            <key>
+                0
+                <alt>ⁿ∅</alt>
+            </key>
         </row>
         <row>
             <key>q</key>
@@ -30,7 +51,7 @@
             </key>
             <key>
                 i
-                <alt>ûüùúū</alt>
+                <alt>îïíīì</alt>
             </key>
             <key>
                 o
@@ -90,7 +111,6 @@
             </key>
             <key growthFactor="5">
                 <icon>space</icon>
-                <commit>\s</commit>
             </key>
             <key>
                 .
@@ -98,17 +118,320 @@
             </key>
             <key growthFactor="1.5">
                 <icon>enter</icon>
-                <commit>\n</commit>
+                <enter />
             </key>
         </row>
     </layout>
     <layout mode="uppercase">
-
+        <row>
+            <key>
+                1
+                <alt>¹½⅓¼⅛</alt>
+            </key>
+            <key>
+                2
+                <alt>²⅔</alt>
+            </key>
+            <key>
+                3
+                <alt>³¾⅜</alt>
+            </key>
+            <key>
+                4
+                <alt>⁴</alt>
+            </key>
+            <key>
+                5
+                <alt>⅝</alt>
+            </key>
+            <key>6</key>
+            <key>
+                7
+                <alt>⅞</alt>
+            </key>
+            <key>8</key>
+            <key>9</key>
+            <key>
+                0
+                <alt>ⁿ∅</alt>
+            </key>
+        </row>
+        <row>
+            <key>Q</key>
+            <key>W</key>
+            <key>
+                E
+                <alt>ÈÉÊËĒ</alt>
+            </key>
+            <key>R</key>
+            <key>T</key>
+            <key>Y</key>
+            <key>
+                U
+                <alt>ÛÜÙÚŪ</alt>
+            </key>
+            <key>
+                I
+                <alt>ÎÏÍĪÌ</alt>
+            </key>
+            <key>
+                O
+                <alt>ÔÖÒÓŒØŌÕ</alt>
+            </key>
+            <key>P</key>
+        </row>
+        <row>
+            <key>
+                A
+                <alt>ÀÁÂÄÆÃÅĀ</alt>
+            </key>
+            <key>S</key>
+            <key>D</key>
+            <key>F</key>
+            <key>E</key>
+            <key>G</key>
+            <key>H</key>
+            <key>J</key>
+            <key>K</key>
+            <key>L</key>
+        </row>
+        <row>
+            <key highlight="true" growthFactor="1.5">
+                <icon>shift</icon>
+                <switch>lowercase</switch>
+            </key>
+            <key>Z</key>
+            <key>X</key>
+            <key>
+                C
+                <alt>Ç</alt>
+            </key>
+            <key>V</key>
+            <key>B</key>
+            <key>
+                N
+                <alt>Ñ</alt>
+            </key>
+            <key>M</key>
+            <key growthFactor="1.5">
+                <icon>backspace</icon>
+                <backspace />
+            </key>
+        </row>
+        <row>
+            <key growthFactor="1.5">
+                !#1
+                <switch>symbol1</switch>
+            </key>
+            <key>
+                ,
+                <alt>|?!@#$%{}[];</alt>
+            </key>
+            <key growthFactor="5">
+                <icon>space</icon>
+            </key>
+            <key>
+                .
+                <alt>\/^&amp;*()"'&lt;&gt;:</alt>
+            </key>
+            <key growthFactor="1.5">
+                <icon>enter</icon>
+                <enter />
+            </key>
+        </row>
     </layout>
     <layout mode="symbol1">
-
+        <row>
+            <key>
+                1
+                <alt>¹½⅓¼⅛</alt>
+            </key>
+            <key>
+                2
+                <alt>²⅔</alt>
+            </key>
+            <key>
+                3
+                <alt>³¾⅜</alt>
+            </key>
+            <key>
+                4
+                <alt>⁴</alt>
+            </key>
+            <key>
+                5
+                <alt>⅝</alt>
+            </key>
+            <key>6</key>
+            <key>
+                7
+                <alt>⅞</alt>
+            </key>
+            <key>8</key>
+            <key>9</key>
+            <key>
+                0
+                <alt>ⁿ∅</alt>
+            </key>
+        </row>
+        <row>
+            <key>+</key>
+            <key>×</key>
+            <key>÷</key>
+            <key>=</key>
+            <key>/</key>
+            <key>_</key>
+            <key>€</key>
+            <key>£</key>
+            <key>¥</key>
+            <key>₩</key>
+        </row>
+        <row>
+            <key>!</key>
+            <key>@</key>
+            <key>#</key>
+            <key>$</key>
+            <key>%</key>
+            <key>^</key>
+            <key>&amp;</key>
+            <key>*</key>
+            <key>(</key>
+            <key>)</key>
+        </row>
+        <row>
+            <key growthFactor="1.5">
+                1/2
+                <switch>symbol2</switch>
+            </key>
+            <key>-</key>
+            <key>'</key>
+            <key>"</key>
+            <key>:</key>
+            <key>;</key>
+            <key>,</key>
+            <key>?</key>
+            <key growthFactor="1.5">
+                <icon>backspace</icon>
+                <backspace />
+            </key>
+        </row>
+        <row>
+            <key highlight="true" growthFactor="1.5">
+                abc
+                <switch>lowercase</switch>
+            </key>
+            <key>
+                ,
+                <alt>|?!@#$%{}[];</alt>
+            </key>
+            <key growthFactor="5">
+                <icon>space</icon>
+            </key>
+            <key>
+                .
+                <alt>\/^&amp;*()"'&lt;&gt;:</alt>
+            </key>
+            <key growthFactor="1.5">
+                <icon>enter</icon>
+                <enter />
+            </key>
+        </row>
     </layout>
     <layout mode="symbol2">
-
+        <row>
+            <key>
+                1
+                <alt>¹½⅓¼⅛</alt>
+            </key>
+            <key>
+                2
+                <alt>²⅔</alt>
+            </key>
+            <key>
+                3
+                <alt>³¾⅜</alt>
+            </key>
+            <key>
+                4
+                <alt>⁴</alt>
+            </key>
+            <key>
+                5
+                <alt>⅝</alt>
+            </key>
+            <key>6</key>
+            <key>
+                7
+                <alt>⅞</alt>
+            </key>
+            <key>8</key>
+            <key>9</key>
+            <key>
+                0
+                <alt>ⁿ∅</alt>
+            </key>
+        </row>
+        <row>
+            <key>`</key>
+            <key>~</key>
+            <key>\</key>
+            <key>|</key>
+            <key>&lt;</key>
+            <key>&gt;</key>
+            <key>{</key>
+            <key>}</key>
+            <key>[</key>
+            <key>]</key>
+        </row>
+        <row>
+            <key>°</key>
+            <key>•</key>
+            <key>○</key>
+            <key>●</key>
+            <key>□</key>
+            <key>■</key>
+            <key>♤</key>
+            <key>♡</key>
+            <key>♢</key>
+            <key>♧</key>
+        </row>
+        <row>
+            <key highlight="true" growthFactor="1.5">
+                2/2
+                <switch>symbol1</switch>
+            </key>
+            <key>☆</key>
+            <key>▪</key>
+            <key>¤</key>
+            <key>«</key>
+            <key>»</key>
+            <key>¡</key>
+            <key>¿</key>
+            <key growthFactor="1.5">
+                <icon>backspace</icon>
+                <backspace />
+            </key>
+        </row>
+        <row>
+            <key highlight="true" growthFactor="1.5">
+                abc
+                <switch>lowercase</switch>
+            </key>
+            <key>
+                ,
+                <alt>|?!@#$%{}[];</alt>
+            </key>
+            <key growthFactor="5">
+                <icon>space</icon>
+            </key>
+            <key>
+                .
+                <alt>\/^&amp;*()"'&lt;&gt;:</alt>
+            </key>
+            <key growthFactor="1.5">
+                <icon>enter</icon>
+                <enter />
+            </key>
+        </row>
     </layout>
 </keyboardLocale>

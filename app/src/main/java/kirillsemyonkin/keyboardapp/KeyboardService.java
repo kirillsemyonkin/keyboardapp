@@ -11,9 +11,11 @@ public interface KeyboardService {
 
     String currentComposingText();
 
-    void updateComposingText(String composingText);
+    void appendToComposingText(char character);
 
-    void commitComposingText(String composingText);
+    void backspaceComposingText();
 
-    void deleteSurroundingText(int beforeLength, int afterLength);
+    void backspaceText();
+
+    void sendEnter();
 }

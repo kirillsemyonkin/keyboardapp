@@ -12,47 +12,39 @@ import kirillsemyonkin.keyboardapp.icon.KeyIcon;
 
 public enum Keys {
     BACKSPACE {
-        public KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor) {
-            return new BackspaceKey(icon, growthFactor);
+        public KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor, boolean highlight) {
+            return new BackspaceKey(icon, growthFactor, highlight);
         }
     },
     ALT {
-        public KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor)
+        public KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor, boolean highlight)
             throws XmlPullParserException,
             IOException {
             parser.next();
             parser.require(TEXT, XMLNS_NULL, null);
             var altChars = parser.getText().trim();
 
-            return new AltCharAppendKey(icon, growthFactor, altChars.toCharArray());
+            return new AltCharAppendKey(icon, growthFactor, highlight, altChars.toCharArray());
         }
     },
     SWITCH {
-        public KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor)
+        public KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor, boolean highlight)
             throws XmlPullParserException,
             IOException {
             parser.next();
             parser.require(TEXT, XMLNS_NULL, null);
             var mode = parser.getText().trim();
 
-            return new SwitchModeKey(icon, growthFactor, mode);
+            return new SwitchModeKey(icon, growthFactor, highlight, mode);
         }
     },
-    COMMIT {
-        public KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor)
-            throws XmlPullParserException,
-            IOException {
-            parser.next();
-            parser.require(TEXT, XMLNS_NULL, null);
-            var text = parser.getText().trim();
-            if ("\\n".equals(text)) text = "\n";
-            if ("\\s".equals(text)) text = " ";
-
-            return new CommitKey(icon, growthFactor, text);
+    ENTER {
+        public KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor, boolean highlight) {
+            return new EnterKey(icon, growthFactor, highlight);
         }
     };
 
-    public abstract KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor)
+    public abstract KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor, boolean highlight)
         throws XmlPullParserException,
         IOException;
 }

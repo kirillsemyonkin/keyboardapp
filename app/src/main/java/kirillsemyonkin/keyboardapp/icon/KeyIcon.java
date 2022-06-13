@@ -1,5 +1,6 @@
 package kirillsemyonkin.keyboardapp.icon;
 
+import android.content.res.Resources;
 import android.graphics.Canvas;
 
 /**
@@ -18,7 +19,8 @@ public interface KeyIcon {
      * Draws the icon on the canvas.
      * Canvas is prepared to draw from the center.
      *
-     * @param canvas Canvas to draw on.
+     * @param canvas    Canvas to draw on.
+     * @param resources Resources to use while drawing.
      */
-    void draw(Canvas canvas);
+    void draw(Canvas canvas, Resources resources);
 }
