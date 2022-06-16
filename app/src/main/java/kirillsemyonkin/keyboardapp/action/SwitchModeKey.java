@@ -22,4 +22,9 @@ public class SwitchModeKey extends KeyboardKey {
     public void tap(KeyboardService service) {
         service.switchMode(mode);
     }
+
+    public void hold(KeyboardService service) {
+        // Switch mode on long hold
+        tap(service);
+    }
 }

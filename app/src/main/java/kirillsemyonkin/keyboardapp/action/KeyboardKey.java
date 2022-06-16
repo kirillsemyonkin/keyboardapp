@@ -61,6 +61,5 @@ public abstract class KeyboardKey {
      * @param service Service to perform the action upon.
      */
     public void hold(KeyboardService service) {
-        tap(service);
     }
 }
