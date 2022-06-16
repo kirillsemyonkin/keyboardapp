@@ -8,7 +8,7 @@ public class BackspaceKey extends KeyboardKey {
         super(icon, growthFactor, highlight);
     }
 
-    public void action(KeyboardService service) {
+    public void tap(KeyboardService service) {
         var text = service.currentComposingText();
         if (!text.isEmpty())
             service.backspaceComposingText();

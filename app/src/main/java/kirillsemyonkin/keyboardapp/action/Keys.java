@@ -1,7 +1,7 @@
 package kirillsemyonkin.keyboardapp.action;
 
 import static org.xmlpull.v1.XmlPullParser.TEXT;
-import static kirillsemyonkin.keyboardapp.KeyboardLocale.XMLNS_NULL;
+import static kirillsemyonkin.keyboardapp.layout.KeyboardLocale.XMLNS_NULL;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;

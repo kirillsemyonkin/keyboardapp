@@ -5,7 +5,7 @@ import static android.view.KeyEvent.KEYCODE_ENTER;
 import static org.xmlpull.v1.XmlPullParser.END_TAG;
 import static org.xmlpull.v1.XmlPullParser.START_TAG;
 import static org.xmlpull.v1.XmlPullParser.TEXT;
-import static kirillsemyonkin.keyboardapp.KeyboardLocale.XMLNS_NULL;
+import static kirillsemyonkin.keyboardapp.layout.KeyboardLocale.XMLNS_NULL;
 
 import android.annotation.SuppressLint;
 import android.content.res.Resources;
@@ -20,6 +20,11 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import kirillsemyonkin.keyboardapp.action.AltCharAppendKey;
+import kirillsemyonkin.keyboardapp.layout.KeyboardLayout;
+import kirillsemyonkin.keyboardapp.layout.KeyboardLocale;
+import kirillsemyonkin.keyboardapp.view.KeyboardAppView;
 
 public class KeyboardAppService extends InputMethodService implements KeyboardService {
     //
@@ -83,7 +88,7 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
                 || !parser.getName().equals("locales"))
                 parser.next();
             locales = parseLocaleList(parser);
-        } catch (XmlPullParserException | IOException e) { // FIXME temp
+        } catch (XmlPullParserException | IOException | Resources.NotFoundException e) { // FIXME temp
             e.printStackTrace();
         }
         defaultInit();
@@ -160,6 +165,13 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
         composingText = newComposingText;
     }
 
+    private void sendDownUp(int keycode) {
+        getCurrentInputConnection()
+            .sendKeyEvent(new KeyEvent(ACTION_DOWN, keycode));
+        getCurrentInputConnection()
+            .sendKeyEvent(new KeyEvent(ACTION_UP, keycode));
+    }
+
     public void backspaceText() {
         sendDownUp(KEYCODE_DEL);
     }
@@ -169,10 +181,7 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
         composingText = "";
     }
 
-    private void sendDownUp(int keycode) {
-        getCurrentInputConnection()
-            .sendKeyEvent(new KeyEvent(ACTION_DOWN, keycode));
-        getCurrentInputConnection()
-            .sendKeyEvent(new KeyEvent(ACTION_UP, keycode));
+    public void showAltChars(AltCharAppendKey key) {
+
     }
 }

@@ -1,5 +1,8 @@
 package kirillsemyonkin.keyboardapp;
 
+import kirillsemyonkin.keyboardapp.action.AltCharAppendKey;
+import kirillsemyonkin.keyboardapp.layout.KeyboardLayout;
+
 public interface KeyboardService {
     void switchMode(String mode);
 
@@ -18,4 +21,6 @@ public interface KeyboardService {
     void backspaceText();
 
     void sendEnter();
+
+    void showAltChars(AltCharAppendKey key);
 }

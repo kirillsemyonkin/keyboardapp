@@ -1,6 +1,6 @@
 package kirillsemyonkin.keyboardapp.icon;
 
-import static kirillsemyonkin.keyboardapp.KeyboardAppView.KEY_TEXT;
+import static kirillsemyonkin.keyboardapp.view.KeyboardAppView.KEY_TEXT;
 
 import android.annotation.SuppressLint;
 import android.content.res.Resources;

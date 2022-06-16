@@ -1,4 +1,4 @@
-package kirillsemyonkin.keyboardapp;
+package kirillsemyonkin.keyboardapp.layout;
 
 import static org.xmlpull.v1.XmlPullParser.END_TAG;
 import static org.xmlpull.v1.XmlPullParser.START_TAG;

@@ -1,6 +1,9 @@
-package kirillsemyonkin.keyboardapp;
+package kirillsemyonkin.keyboardapp.view;
 
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
+import static android.view.MotionEvent.ACTION_DOWN;
+import static android.view.MotionEvent.ACTION_MOVE;
+import static android.view.MotionEvent.ACTION_UP;
 import static java.lang.Math.floor;
 import static java.lang.Math.floorDiv;
 
@@ -8,10 +11,17 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import kirillsemyonkin.keyboardapp.KeyboardService;
 import kirillsemyonkin.keyboardapp.action.KeyboardKey;
 
 public class KeyboardAppView extends View {
@@ -134,7 +144,7 @@ public class KeyboardAppView extends View {
                     y + keyHeight - KEY_PADDING * 2,
                     KEY_CORNER_RADIUS,
                     KEY_CORNER_RADIUS,
-                    currentlyDown == key
+                    currentlyDownPointers.containsValue(key)
                         ? KEY_BACKGROUND_DOWN
                         : (key.highlight()
                         ? KEY_BACKGROUND_HIGHLIGHT
@@ -152,34 +162,92 @@ public class KeyboardAppView extends View {
         }
     }
 
-    private KeyboardKey currentlyDown;
+    private final Map<Integer, KeyboardKey> currentlyDownPointers = new HashMap<>();
+
+    private final int LONG_PRESS_MSG_ID = 0;
+    private final long LONG_PRESS_DELAY = 400; // .4s
+    private final int LONG_HOLD_MSG_ID = 1;
+    private final long LONG_HOLD_REPEAT = 50; // 20 repeats/sec
+
+    private final Handler longPressHandler
+        = new Handler(Looper.myLooper()) {
+        public void handleMessage(Message msg) {
+            // Ensure received pointer-key pair is valid
+            var pointerID = (int) msg.obj;
+            var currentlyDown
+                = currentlyDownPointers
+                .get(pointerID);
+            if (currentlyDown == null) return;
+
+            // Call `hold` and try to repeat
+            currentlyDown.hold(service);
+            sendMessageDelayed(
+                Message.obtain(
+                    this,
+                    LONG_HOLD_MSG_ID,
+                    pointerID),
+                LONG_HOLD_REPEAT);
+        }
+    };
 
     @SuppressLint("ClickableViewAccessibility")
     public boolean onTouchEvent(MotionEvent event) {
-        // TODO multitouch
-        var x = (int) event.getX();
-        var y = (int) event.getY();
+        var pointerIndex = event.getActionIndex();
+        var pointerID = event.getPointerId(pointerIndex);
 
-        var key = unprojectToKey(x, y);
+        var x = (int) event.getX(pointerIndex);
+        var y = (int) event.getY(pointerIndex);
+        var eventKey = unprojectToKey(x, y);
 
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN: {
-                currentlyDown = key;
+        switch (event.getActionMasked()) {
+            // Prepare for tap and long hold
+            case ACTION_DOWN: {
+                currentlyDownPointers
+                    .put(pointerID, eventKey);
+
+                longPressHandler
+                    .sendMessageDelayed(
+                        Message.obtain(
+                            longPressHandler,
+                            LONG_PRESS_MSG_ID,
+                            pointerID),
+                        LONG_PRESS_DELAY);
 
                 break;
             }
-            case MotionEvent.ACTION_MOVE: {
-                if (currentlyDown == null) break;
 
+            case ACTION_MOVE: {
                 break;
             }
-            case MotionEvent.ACTION_UP: {
+
+            // Tap and stop long hold
+            case ACTION_UP: {
+                var currentlyDown
+                    = currentlyDownPointers
+                    .get(pointerID);
                 if (currentlyDown == null) break;
 
-                if (currentlyDown == key)
-                    currentlyDown.action(service);
+                // Call `tap` if releasing on same key as pressed
+                //   and it has not been long-held yet
+                if (currentlyDown == eventKey
+                    && !longPressHandler
+                    .hasMessages(
+                        LONG_HOLD_MSG_ID,
+                        pointerID))
+                    currentlyDown.tap(service);
 
-                currentlyDown = null;
+                // Cancel long delay and repeat
+                longPressHandler
+                    .removeMessages(
+                        LONG_PRESS_MSG_ID,
+                        pointerID);
+                longPressHandler
+                    .removeMessages(
+                        LONG_HOLD_MSG_ID,
+                        pointerID);
+
+                currentlyDownPointers
+                    .remove(pointerID);
 
                 break;
             }

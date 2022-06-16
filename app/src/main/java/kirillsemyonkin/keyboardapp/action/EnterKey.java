@@ -8,7 +8,7 @@ public class EnterKey extends KeyboardKey {
         super(icon, growthFactor, highlight);
     }
 
-    public void action(KeyboardService service) {
+    public void tap(KeyboardService service) {
         service.sendEnter();
     }
 }

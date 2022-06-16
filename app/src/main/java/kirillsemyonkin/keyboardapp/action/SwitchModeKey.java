@@ -9,7 +9,8 @@ import kirillsemyonkin.keyboardapp.icon.KeyIcon;
 public class SwitchModeKey extends KeyboardKey {
     private final String mode;
 
-    public SwitchModeKey(KeyIcon icon, float growthFactor, boolean highlight, String mode) {
+    public SwitchModeKey(KeyIcon icon, float growthFactor, boolean highlight,
+                         String mode) {
         super(icon, growthFactor, highlight);
         this.mode = mode;
     }
@@ -18,7 +19,7 @@ public class SwitchModeKey extends KeyboardKey {
         return mode;
     }
 
-    public void action(KeyboardService service) {
+    public void tap(KeyboardService service) {
         service.switchMode(mode);
     }
 }

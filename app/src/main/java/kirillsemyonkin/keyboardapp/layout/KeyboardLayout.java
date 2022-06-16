@@ -1,4 +1,4 @@
-package kirillsemyonkin.keyboardapp;
+package kirillsemyonkin.keyboardapp.layout;
 
 import java.util.List;
 

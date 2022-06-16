@@ -14,7 +14,7 @@ public class CharKey extends KeyboardKey {
         this.character = icon.character();
     }
 
-    public void action(KeyboardService service) {
+    public void tap(KeyboardService service) {
         service.appendToComposingText(character);
     }
 }

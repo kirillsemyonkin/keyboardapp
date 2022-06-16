@@ -37,16 +37,30 @@ public abstract class KeyboardKey {
     }
 
     /**
-     * Perform an action.
-     *
-     * @param service Service to perform the action upon.
-     */
-    public abstract void action(KeyboardService service);
-
-    /**
      * Whether should the key background be colored.
      */
     public boolean highlight() {
         return highlight;
+    }
+
+    //
+    // Virtual
+    //
+
+    /**
+     * Perform an action for a simple tap.
+     *
+     * @param service Service to perform the action upon.
+     */
+    public void tap(KeyboardService service) {
+    }
+
+    /**
+     * Perform an action for a long press.
+     *
+     * @param service Service to perform the action upon.
+     */
+    public void hold(KeyboardService service) {
+        tap(service);
     }
 }
