@@ -23,7 +23,7 @@ public class SwitchModeKey extends KeyboardKey {
         service.switchMode(mode);
     }
 
-    public void hold(KeyboardService service) {
+    public void hold(KeyboardService service, int pointerID) {
         // Switch mode on long hold
         tap(service);
     }

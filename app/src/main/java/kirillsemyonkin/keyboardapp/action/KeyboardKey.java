@@ -26,7 +26,7 @@ public abstract class KeyboardKey {
 
     /**
      * How much of the layout growth factor to occupy.
-     *
+     * <p>
      * For example,
      * if the key has a growth factor of 1,
      * and the layout has a growth factor of 10,
@@ -56,10 +56,20 @@ public abstract class KeyboardKey {
     }
 
     /**
-     * Perform an action for a long press.
+     * Perform an action for a long hold press or repeat.
      *
-     * @param service Service to perform the action upon.
+     * @param service   Service to perform the action upon.
+     * @param pointerID Pointer that holds the key.
      */
-    public void hold(KeyboardService service) {
+    public void hold(KeyboardService service, int pointerID) {
+    }
+
+    /**
+     * Perform an action for a long hold release.
+     *
+     * @param service   Service to perform the action upon.
+     * @param pointerID Pointer that held the key.
+     */
+    public void unhold(KeyboardService service, int pointerID) {
     }
 }

@@ -24,6 +24,16 @@ public class PlainTextKeyIcon implements KeyIcon {
     }
 
     public void draw(Canvas canvas, Resources resources) {
+        drawText(canvas, text);
+    }
+
+    /**
+     * Draws key text centered at the canvas origin after its current transformation.
+     *
+     * @param canvas Canvas to draw on.
+     * @param text   Text to draw.
+     */
+    public static void drawText(Canvas canvas, String text) {
         var bounds = new Rect();
         KEY_TEXT.getTextBounds(text, 0, text.length(), bounds);
         var metrics = KEY_TEXT.getFontMetrics();

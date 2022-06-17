@@ -21,9 +21,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import kirillsemyonkin.keyboardapp.action.AltCharAppendKey;
 import kirillsemyonkin.keyboardapp.action.KeyboardKey;
 import kirillsemyonkin.keyboardapp.action.Keys;
-import kirillsemyonkin.keyboardapp.action.CharKey;
 import kirillsemyonkin.keyboardapp.action.SwitchModeKey;
 import kirillsemyonkin.keyboardapp.icon.KeyIcon;
 import kirillsemyonkin.keyboardapp.icon.PlainTextKeyIcon;
@@ -200,7 +200,7 @@ public final class KeyboardLocale {
         // char</key>
         if (parser.next() == END_TAG) {
             parser.require(END_TAG, XMLNS_NULL, "key");
-            return new CharKey(icon, growthFactor, highlight);
+            return new AltCharAppendKey(icon, growthFactor, highlight);
         }
 
         // <key>icon action</key>

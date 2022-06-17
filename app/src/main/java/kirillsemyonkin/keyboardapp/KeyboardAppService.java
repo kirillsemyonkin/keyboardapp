@@ -181,7 +181,11 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
         composingText = "";
     }
 
-    public void showAltChars(AltCharAppendKey key) {
+    public void showAltChars(int pointer, AltCharAppendKey key) {
+        view.openAltMenu(pointer, key);
+    }
 
+    public void hideAltChars(int pointer, AltCharAppendKey key) {
+        view.closeAltMenu(pointer, key);
     }
 }

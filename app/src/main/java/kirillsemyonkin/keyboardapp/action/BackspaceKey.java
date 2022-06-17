@@ -16,7 +16,7 @@ public class BackspaceKey extends KeyboardKey {
             service.backspaceText();
     }
 
-    public void hold(KeyboardService service) {
+    public void hold(KeyboardService service, int pointerID) {
         // Repeat erasing on long hold
         tap(service);
     }

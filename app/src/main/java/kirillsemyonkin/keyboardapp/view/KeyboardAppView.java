@@ -17,12 +17,16 @@ import android.os.Message;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import kirillsemyonkin.keyboardapp.KeyboardService;
+import kirillsemyonkin.keyboardapp.action.AltCharAppendKey;
 import kirillsemyonkin.keyboardapp.action.KeyboardKey;
+import kirillsemyonkin.keyboardapp.util.AltMenu;
+import kirillsemyonkin.keyboardapp.util.KeyProjection;
 
 public class KeyboardAppView extends View {
     public static final int KEY_CORNER_RADIUS = 15;
@@ -88,6 +92,40 @@ public class KeyboardAppView extends View {
         return null;
     }
 
+    private KeyProjection projectFromKey(KeyboardKey key) {
+        var layout = service.layout();
+        var totalGrowthFactor = layout.growthFactor();
+
+        var totalViewWidth = getWidth();
+        var totalViewHeight = getHeight();
+
+        var rows = layout.rowCount();
+        if (rows == 0) return null;
+        var keyHeight = floorDiv(totalViewHeight, rows);
+
+        for (var row = 0; row < rows; row++) {
+            var cols = layout.colCount(row);
+            if (cols == 0) continue;
+
+            var widths = new int[cols];
+            int totalKeysWidth = 0;
+            for (var col = 0; col < cols; col++) {
+                var k = layout.key(col, row);
+                assert k != null;
+
+                totalKeysWidth
+                    += widths[col]
+                    = (int) floor(totalViewWidth * k.growthFactor() / totalGrowthFactor);
+            }
+
+            for (int col = 0, x = floorDiv(totalViewWidth - totalKeysWidth, 2); col < cols; x += widths[col++])
+                if (key == layout.key(col, row))
+                    return new KeyProjection(x, row * keyHeight, widths[col]);
+        }
+
+        return null;
+    }
+
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         var screenHeight
             = getResources()
@@ -110,9 +148,10 @@ public class KeyboardAppView extends View {
         var keyHeight = floorDiv(totalViewHeight, rows);
 
         // In future might be a good idea to find widest key icon
-        //   and use it to make all icons always fit horizontally
+        //   and use it to make all icons always fit both dimensions
         KEY_TEXT.setTextSize(keyHeight * KEY_TEXT_FACTOR);
 
+        // Draw keys
         for (var row = 0; row < rows; row++) {
             var y = row * keyHeight;
 
@@ -140,8 +179,8 @@ public class KeyboardAppView extends View {
                 canvas.drawRoundRect(
                     x + KEY_PADDING,
                     y + KEY_PADDING,
-                    x + keyWidth - KEY_PADDING * 2,
-                    y + keyHeight - KEY_PADDING * 2,
+                    x + keyWidth - KEY_PADDING,
+                    y + keyHeight - KEY_PADDING,
                     KEY_CORNER_RADIUS,
                     KEY_CORNER_RADIUS,
                     currentlyDownPointers.containsValue(key)
@@ -160,14 +199,19 @@ public class KeyboardAppView extends View {
                 canvas.restore();
             }
         }
+
+        // Draw alt chars menu
+        if (currentAltMenu != null)
+            currentAltMenu.draw(canvas, keyHeight);
     }
 
     private final Map<Integer, KeyboardKey> currentlyDownPointers = new HashMap<>();
+    private AltMenu currentAltMenu;
 
     private final int LONG_PRESS_MSG_ID = 0;
-    private final long LONG_PRESS_DELAY = 400; // .4s
+    private final long LONG_PRESS_DELAY = ViewConfiguration.getLongPressTimeout();
     private final int LONG_HOLD_MSG_ID = 1;
-    private final long LONG_HOLD_REPEAT = 50; // 20 repeats/sec
+    private final long LONG_HOLD_REPEAT = ViewConfiguration.getKeyRepeatDelay();
 
     private final Handler longPressHandler
         = new Handler(Looper.myLooper()) {
@@ -180,13 +224,15 @@ public class KeyboardAppView extends View {
             if (currentlyDown == null) return;
 
             // Call `hold` and try to repeat
-            currentlyDown.hold(service);
+            currentlyDown.hold(service, pointerID);
             sendMessageDelayed(
                 Message.obtain(
                     this,
                     LONG_HOLD_MSG_ID,
                     pointerID),
                 LONG_HOLD_REPEAT);
+
+            invalidate();
         }
     };
 
@@ -197,13 +243,12 @@ public class KeyboardAppView extends View {
 
         var x = (int) event.getX(pointerIndex);
         var y = (int) event.getY(pointerIndex);
-        var eventKey = unprojectToKey(x, y);
 
         switch (event.getActionMasked()) {
             // Prepare for tap and long hold
             case ACTION_DOWN: {
                 currentlyDownPointers
-                    .put(pointerID, eventKey);
+                    .put(pointerID, unprojectToKey(x, y));
 
                 longPressHandler
                     .sendMessageDelayed(
@@ -217,6 +262,13 @@ public class KeyboardAppView extends View {
             }
 
             case ACTION_MOVE: {
+                if (currentAltMenu == null
+                    || !currentAltMenu.heldBy(pointerID)) break;
+
+                currentAltMenu
+                    .selectedIndex(currentAltMenu
+                        .unprojectIndex(x));
+
                 break;
             }
 
@@ -227,25 +279,18 @@ public class KeyboardAppView extends View {
                     .get(pointerID);
                 if (currentlyDown == null) break;
 
-                // Call `tap` if releasing on same key as pressed
-                //   and it has not been long-held yet
-                if (currentlyDown == eventKey
-                    && !longPressHandler
+                var longHeld = longPressHandler
                     .hasMessages(
                         LONG_HOLD_MSG_ID,
-                        pointerID))
+                        pointerID);
+                var actionKey = unprojectToKey(x, y);
+
+                if (longHeld)
+                    currentlyDown.unhold(service, pointerID);
+                else if (currentlyDown == actionKey)
                     currentlyDown.tap(service);
 
-                // Cancel long delay and repeat
-                longPressHandler
-                    .removeMessages(
-                        LONG_PRESS_MSG_ID,
-                        pointerID);
-                longPressHandler
-                    .removeMessages(
-                        LONG_HOLD_MSG_ID,
-                        pointerID);
-
+                cancelLongPressPointer(pointerID);
                 currentlyDownPointers
                     .remove(pointerID);
 
@@ -255,5 +300,60 @@ public class KeyboardAppView extends View {
 
         invalidate();
         return true;
+    }
+
+    private void cancelLongPressPointer(int pointerID) {
+        longPressHandler
+            .removeMessages(
+                LONG_PRESS_MSG_ID,
+                pointerID);
+        longPressHandler
+            .removeMessages(
+                LONG_HOLD_MSG_ID,
+                pointerID);
+    }
+
+    public void openAltMenu(int pointer, AltCharAppendKey key) {
+        if (currentAltMenu == null) {
+            var layout = service.layout();
+
+            var totalViewWidth = getWidth();
+
+            var totalGrowthFactor = layout.growthFactor();
+            var altKeyWidth = (int) floor(totalViewWidth / totalGrowthFactor);
+            var totalMenuWidth = altKeyWidth * (1 + key.altChars().length);
+
+            var projection = projectFromKey(key);
+            assert projection != null;
+
+            var pressedKeyMiddle = projection.x() + floorDiv(projection.width(), 2);
+            var halfAltKeyWidth = floorDiv(altKeyWidth, 2);
+            var ifLeftBorderStart = pressedKeyMiddle - halfAltKeyWidth;
+
+            var borderX = ifLeftBorderStart;
+            var rightBorderFirst = false;
+            // Ensure alt chars menu fits, else mirror
+            if (ifLeftBorderStart + totalMenuWidth > totalViewWidth) {
+                borderX = pressedKeyMiddle + halfAltKeyWidth;
+                rightBorderFirst = true;
+            }
+
+            cancelLongPressPointer(pointer);
+            currentAltMenu = new AltMenu(
+                pointer,
+                key,
+                borderX,
+                projection.y(),
+                rightBorderFirst,
+                altKeyWidth);
+        }
+    }
+
+    public void closeAltMenu(int pointer, AltCharAppendKey key) {
+        if (currentAltMenu != null
+            && currentAltMenu.heldBy(pointer, key)) {
+            service.appendToComposingText(currentAltMenu.selectedCharacter());
+            currentAltMenu = null;
+        }
     }
 }

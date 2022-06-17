@@ -8,7 +8,7 @@ public class AltCharAppendKey extends KeyboardKey {
     private final char[] altChars;
 
     public AltCharAppendKey(KeyIcon icon, float growthFactor, boolean highlight,
-                            char[] altChars) {
+                            char... altChars) {
         super(icon, growthFactor, highlight);
         this.character = icon.character();
         this.altChars = altChars;
@@ -26,7 +26,11 @@ public class AltCharAppendKey extends KeyboardKey {
         service.appendToComposingText(character);
     }
 
-    public void hold(KeyboardService service) {
-        service.showAltChars(this);
+    public void hold(KeyboardService service, int pointerID) {
+        service.showAltChars(pointerID, this);
+    }
+
+    public void unhold(KeyboardService service, int pointerID) {
+        service.hideAltChars(pointerID, this);
     }
 }

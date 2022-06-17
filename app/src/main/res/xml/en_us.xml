@@ -70,7 +70,6 @@
             </key>
             <key>d</key>
             <key>f</key>
-            <key>e</key>
             <key>g</key>
             <key>h</key>
             <key>j</key>
@@ -107,14 +106,14 @@
             </key>
             <key>
                 ,
-                <alt>|?!@#$%{}[];</alt>
+                <alt>;&lt;?'</alt>
             </key>
             <key growthFactor="5">
                 <icon>space</icon>
             </key>
             <key>
                 .
-                <alt>\/^&amp;*()"'&lt;&gt;:</alt>
+                <alt>:&gt;/"</alt>
             </key>
             <key growthFactor="1.5">
                 <icon>enter</icon>
@@ -188,7 +187,6 @@
             <key>S</key>
             <key>D</key>
             <key>F</key>
-            <key>E</key>
             <key>G</key>
             <key>H</key>
             <key>J</key>
@@ -225,14 +223,14 @@
             </key>
             <key>
                 ,
-                <alt>|?!@#$%{}[];</alt>
+                <alt>;&lt;?'</alt>
             </key>
             <key growthFactor="5">
                 <icon>space</icon>
             </key>
             <key>
                 .
-                <alt>\/^&amp;*()"'&lt;&gt;:</alt>
+                <alt>:&gt;/"</alt>
             </key>
             <key growthFactor="1.5">
                 <icon>enter</icon>
@@ -322,14 +320,14 @@
             </key>
             <key>
                 ,
-                <alt>|?!@#$%{}[];</alt>
+                <alt>;&lt;?'</alt>
             </key>
             <key growthFactor="5">
                 <icon>space</icon>
             </key>
             <key>
                 .
-                <alt>\/^&amp;*()"'&lt;&gt;:</alt>
+                <alt>:&gt;/"</alt>
             </key>
             <key growthFactor="1.5">
                 <icon>enter</icon>
@@ -419,14 +417,14 @@
             </key>
             <key>
                 ,
-                <alt>|?!@#$%{}[];</alt>
+                <alt>;&lt;?'</alt>
             </key>
             <key growthFactor="5">
                 <icon>space</icon>
             </key>
             <key>
                 .
-                <alt>\/^&amp;*()"'&lt;&gt;:</alt>
+                <alt>:&gt;/"</alt>
             </key>
             <key growthFactor="1.5">
                 <icon>enter</icon>

@@ -22,5 +22,11 @@ public interface KeyboardService {
 
     void sendEnter();
 
-    void showAltChars(AltCharAppendKey key);
+    //
+    // Alt char menu
+    //
+
+    void showAltChars(int pointer, AltCharAppendKey key);
+
+    void hideAltChars(int pointer, AltCharAppendKey key);
 }
