@@ -65,29 +65,33 @@ public class KeyboardAppView extends View {
 
         // Determine row from posY and ensure valid
         var rows = layout.rowCount();
-        var row = floorDiv(posY * rows, getHeight());
-        if (!(row >= 0 && row < rows)) return null;
+        var rowNum = floorDiv(posY * rows, getHeight());
+        var row = layout.row(rowNum);
+        if (row == null) return null;
 
         // Determine col from posX and ensure valid
-        var cols = layout.colCount(row);
+        var cols = row.colCount();
         var totalGrowthFactor = layout.growthFactor();
 
         var totalViewWidth = getWidth();
 
+        var rowGrowthFactor = row.growthFactor();
+        if (rowGrowthFactor <= 0) rowGrowthFactor = totalGrowthFactor;
+
         var widths = new int[cols];
         int totalKeysWidth = 0;
-        for (var col = 0; col < cols; col++) {
-            var key = layout.key(col, row);
+        for (var colNum = 0; colNum < cols; colNum++) {
+            var key = row.key(colNum);
             assert key != null;
 
             totalKeysWidth
-                += widths[col]
-                = (int) floor(totalViewWidth * key.growthFactor() / totalGrowthFactor);
+                += widths[colNum]
+                = (int) floor(totalViewWidth * key.growthFactor() / rowGrowthFactor);
         }
 
-        for (int col = 0, x = floorDiv(totalViewWidth - totalKeysWidth, 2); col < cols; x += widths[col++])
-            if (x <= posX && posX < x + widths[col])
-                return layout.key(col, row);
+        for (int colNum = 0, x = floorDiv(totalViewWidth - totalKeysWidth, 2); colNum < cols; x += widths[colNum++])
+            if (x <= posX && posX < x + widths[colNum])
+                return row.key(colNum);
 
         return null;
     }
@@ -103,24 +107,30 @@ public class KeyboardAppView extends View {
         if (rows == 0) return null;
         var keyHeight = floorDiv(totalViewHeight, rows);
 
-        for (var row = 0; row < rows; row++) {
-            var cols = layout.colCount(row);
+        for (var rowNum = 0; rowNum < rows; rowNum++) {
+            var row = layout.row(rowNum);
+            assert row != null;
+
+            var cols = row.colCount();
             if (cols == 0) continue;
+
+            var rowGrowthFactor = row.growthFactor();
+            if (rowGrowthFactor <= 0) rowGrowthFactor = totalGrowthFactor;
 
             var widths = new int[cols];
             int totalKeysWidth = 0;
-            for (var col = 0; col < cols; col++) {
-                var k = layout.key(col, row);
+            for (var colNum = 0; colNum < cols; colNum++) {
+                var k = row.key(colNum);
                 assert k != null;
 
                 totalKeysWidth
-                    += widths[col]
-                    = (int) floor(totalViewWidth * k.growthFactor() / totalGrowthFactor);
+                    += widths[colNum]
+                    = (int) floor(totalViewWidth * k.growthFactor() / rowGrowthFactor);
             }
 
-            for (int col = 0, x = floorDiv(totalViewWidth - totalKeysWidth, 2); col < cols; x += widths[col++])
-                if (key == layout.key(col, row))
-                    return new KeyProjection(x, row * keyHeight, widths[col]);
+            for (int colNum = 0, x = floorDiv(totalViewWidth - totalKeysWidth, 2); colNum < cols; x += widths[colNum++])
+                if (key == row.key(colNum))
+                    return new KeyProjection(x, rowNum * keyHeight, widths[colNum]);
         }
 
         return null;
@@ -152,28 +162,34 @@ public class KeyboardAppView extends View {
         KEY_TEXT.setTextSize(keyHeight * KEY_TEXT_FACTOR);
 
         // Draw keys
-        for (var row = 0; row < rows; row++) {
-            var y = row * keyHeight;
+        for (var rowNum = 0; rowNum < rows; rowNum++) {
+            var row = layout.row(rowNum);
+            assert row != null;
 
-            var cols = layout.colCount(row);
+            var y = rowNum * keyHeight;
+
+            var cols = row.colCount();
             if (cols == 0) continue;
+
+            var rowGrowthFactor = row.growthFactor();
+            if (rowGrowthFactor <= 0) rowGrowthFactor = totalGrowthFactor;
 
             @SuppressLint("DrawAllocation")
             var widths = new int[cols];
             int totalKeysWidth = 0;
-            for (var col = 0; col < cols; col++) {
-                var key = layout.key(col, row);
+            for (var colNum = 0; colNum < cols; colNum++) {
+                var key = row.key(colNum);
                 assert key != null;
 
                 totalKeysWidth
-                    += widths[col]
-                    = (int) floor(totalViewWidth * key.growthFactor() / totalGrowthFactor);
+                    += widths[colNum]
+                    = (int) floor(totalViewWidth * key.growthFactor() / rowGrowthFactor);
             }
 
-            for (int col = 0, x = floorDiv(totalViewWidth - totalKeysWidth, 2); col < cols; x += widths[col++]) {
-                var keyWidth = widths[col];
+            for (int colNum = 0, x = floorDiv(totalViewWidth - totalKeysWidth, 2); colNum < cols; x += widths[colNum++]) {
+                var keyWidth = widths[colNum];
 
-                var key = layout.key(col, row);
+                var key = row.key(colNum);
                 assert key != null;
 
                 canvas.drawRoundRect(

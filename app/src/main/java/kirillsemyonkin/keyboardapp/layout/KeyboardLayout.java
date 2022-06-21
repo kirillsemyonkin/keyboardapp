@@ -1,15 +1,15 @@
 package kirillsemyonkin.keyboardapp.layout;
 
+import static java.util.Collections.unmodifiableList;
+
 import java.util.List;
 
-import kirillsemyonkin.keyboardapp.action.KeyboardKey;
-
 public final class KeyboardLayout {
-    private final List<List<KeyboardKey>> rows;
+    private final List<KeyboardRow> rows;
     private final float growthFactor;
 
-    public KeyboardLayout(List<List<KeyboardKey>> rows, float growthFactor) {
-        this.rows = rows;
+    public KeyboardLayout(List<KeyboardRow> rows, float growthFactor) {
+        this.rows = unmodifiableList(rows);
         this.growthFactor = growthFactor;
     }
 
@@ -17,15 +17,9 @@ public final class KeyboardLayout {
         return rows.size();
     }
 
-    public int colCount(int row) {
+    public KeyboardRow row(int row) {
         return row >= 0 && row < rowCount()
-            ? rows.get(row).size()
-            : -1;
-    }
-
-    public KeyboardKey key(int col, int row) {
-        return col >= 0 && col < colCount(row)
-            ? rows.get(row).get(col)
+            ? rows.get(row)
             : null;
     }
 

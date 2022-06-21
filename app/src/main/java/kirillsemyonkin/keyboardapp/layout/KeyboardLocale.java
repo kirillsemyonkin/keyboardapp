@@ -5,9 +5,7 @@ import static org.xmlpull.v1.XmlPullParser.START_TAG;
 import static org.xmlpull.v1.XmlPullParser.TEXT;
 import static java.lang.Boolean.parseBoolean;
 import static java.lang.Float.parseFloat;
-import static java.lang.Integer.parseInt;
 import static java.lang.Math.max;
-import static java.util.Collections.unmodifiableList;
 import static java.util.Collections.unmodifiableMap;
 import static java.util.Map.entry;
 
@@ -17,7 +15,6 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -71,7 +68,7 @@ public final class KeyboardLocale {
         if (defaultMode == null)
             throw new NullPointerException("<keyboardLocale> missing `defaultMode` attribute");
 
-        // Parse <layout mode="string" [growthFactor="int"]>s until </keyboardLocale>
+        // Parse <layout>s until </keyboardLocale>
         var layouts = new HashMap<String, KeyboardLayout>();
         while (parser.next() != END_TAG) {
             var layoutEntry = parseLayout(parser);
@@ -89,36 +86,23 @@ public final class KeyboardLocale {
 
         // Ensure all <switch>es are valid
         for (var layout : layouts.values())
-            for (int row = 0, rows = layout.rowCount(); row < rows; row++)
-                for (int col = 0, cols = layout.colCount(row); col < cols; col++) {
-                    var key = layout.key(row, col);
+            for (int rowNum = 0, rows = layout.rowCount(); rowNum < rows; rowNum++) {
+                var row = layout.row(rowNum);
+                assert row != null;
+
+                for (int colNum = 0, cols = row.colCount(); colNum < cols; colNum++) {
+                    var key = row.key(colNum);
+                    assert key != null;
+
                     if (key instanceof SwitchModeKey) {
                         var mode = ((SwitchModeKey) key).mode();
                         if (!layouts.containsKey(mode))
                             throw new NullPointerException("<switch>" + mode + "</switch> does not correspond to any of the <layout>s");
                     }
                 }
+            }
 
         return new KeyboardLocale(locale, layouts, defaultMode);
-    }
-
-    private static List<KeyboardKey> parseRow(XmlPullParser parser)
-        throws XmlPullParserException,
-        IOException,
-        NumberFormatException,
-        IllegalArgumentException {
-        // Read <row>
-        parser.require(START_TAG, XMLNS_NULL, "row");
-
-        // Parse <key>s until </row>
-        var keys = new ArrayList<KeyboardKey>();
-        while (parser.next() != END_TAG)
-            keys.add(parseKey(parser));
-
-        // Read </row>
-        parser.require(END_TAG, XMLNS_NULL, "row");
-
-        return unmodifiableList(keys);
     }
 
     private static Entry<String, KeyboardLayout> parseLayout(XmlPullParser parser)
@@ -127,7 +111,7 @@ public final class KeyboardLocale {
         NumberFormatException,
         NullPointerException,
         IllegalArgumentException {
-        // Read <layout mode="string" [growthFactor="int"]>
+        // Read <layout mode="string" [growthFactor="float"]>
         parser.require(START_TAG, XMLNS_NULL, "layout");
 
         var mode = parser.getAttributeValue(XMLNS_NULL, "mode");
@@ -138,10 +122,10 @@ public final class KeyboardLocale {
         var growthFactor
             = growthFactorOpt == null
             ? 0
-            : parseInt(growthFactorOpt); // early parseInt
+            : parseFloat(growthFactorOpt); // early parse
 
         // Parse <row>s until </layout>
-        var rows = new ArrayList<List<KeyboardKey>>();
+        var rows = new ArrayList<KeyboardRow>();
         while (parser.next() != END_TAG)
             rows.add(parseRow(parser));
 
@@ -150,10 +134,42 @@ public final class KeyboardLocale {
 
         // If growthFactor is unspecified (or non-positive), detect it from max row length
         if (growthFactor <= 0)
-            for (var row : rows)
-                growthFactor = max(growthFactor, row.size());
+            for (var row : rows) {
+                var factor = row.growthFactor();
+                if (factor <= 0) {
+                    factor = 0;
+                    for (int colNum = 0, cols = row.colCount(); colNum < cols; colNum++)
+                        factor += row.key(colNum).growthFactor();
+                }
+                growthFactor = max(growthFactor, factor);
+            }
 
         return entry(mode, new KeyboardLayout(rows, growthFactor));
+    }
+
+    private static KeyboardRow parseRow(XmlPullParser parser)
+        throws XmlPullParserException,
+        IOException,
+        NumberFormatException,
+        IllegalArgumentException {
+        // Read <row [growthFactor="float"]>
+        parser.require(START_TAG, XMLNS_NULL, "row");
+
+        var growthFactorOpt = parser.getAttributeValue(XMLNS_NULL, "growthFactor");
+        var growthFactor
+            = growthFactorOpt == null
+            ? 0
+            : parseFloat(growthFactorOpt); // early parse
+
+        // Parse <key>s until </row>
+        var keys = new ArrayList<KeyboardKey>();
+        while (parser.next() != END_TAG)
+            keys.add(parseKey(parser));
+
+        // Read </row>
+        parser.require(END_TAG, XMLNS_NULL, "row");
+
+        return new KeyboardRow(keys, growthFactor);
     }
 
     private static KeyboardKey parseKey(XmlPullParser parser)
@@ -161,14 +177,14 @@ public final class KeyboardLocale {
         IOException,
         NumberFormatException,
         IllegalArgumentException {
-        // Read <key>
+        // Read <key [growthFactor="float"] [highlight="bool"]>
         parser.require(START_TAG, XMLNS_NULL, "key");
 
         var growthFactorOpt = parser.getAttributeValue(XMLNS_NULL, "growthFactor");
         var growthFactor
             = growthFactorOpt == null
             ? 1
-            : max(1, parseFloat(growthFactorOpt));
+            : max(1, parseFloat(growthFactorOpt)); // early parse
 
         var highlightOpt = parser.getAttributeValue(XMLNS_NULL, "highlight");
         var highlight = parseBoolean(highlightOpt);
