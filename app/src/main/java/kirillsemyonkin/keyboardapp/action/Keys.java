@@ -42,6 +42,16 @@ public enum Keys {
         public KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor, boolean highlight) {
             return new EnterKey(icon, growthFactor, highlight);
         }
+    },
+    LANGUAGE {
+        public KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor, boolean highlight) {
+            return new LanguageKey(icon, growthFactor, highlight);
+        }
+    },
+    SETTINGS {
+        public KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor, boolean highlight) {
+            return new SettingsKey(icon, growthFactor, highlight);
+        }
     };
 
     public abstract KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor, boolean highlight)

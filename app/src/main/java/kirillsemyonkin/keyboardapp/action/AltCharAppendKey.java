@@ -23,7 +23,7 @@ public class AltCharAppendKey extends KeyboardKey {
     }
 
     public void tap(KeyboardService service) {
-        service.appendToComposingText(character);
+        service.sendCharacter(character);
     }
 
     public void hold(KeyboardService service, int pointerID) {

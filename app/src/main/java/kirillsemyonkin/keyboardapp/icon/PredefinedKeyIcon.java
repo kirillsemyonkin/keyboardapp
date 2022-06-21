@@ -53,6 +53,16 @@ public enum PredefinedKeyIcon implements KeyIcon {
             icon.setBounds(-size, -size, size, size);
             icon.draw(canvas);
         }
+    },
+    LANGUAGE {
+        public void draw(Canvas canvas, Resources resources) {
+            // TODO
+        }
+    },
+    SETTINGS {
+        public void draw(Canvas canvas, Resources resources) {
+            // TODO
+        }
     };
 
     public char character() throws UnsupportedOperationException {

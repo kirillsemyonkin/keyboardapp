@@ -1,6 +1,8 @@
 package kirillsemyonkin.keyboardapp;
 
-import static android.view.KeyEvent.*;
+import static android.view.KeyEvent.ACTION_DOWN;
+import static android.view.KeyEvent.ACTION_UP;
+import static android.view.KeyEvent.KEYCODE_DEL;
 import static android.view.KeyEvent.KEYCODE_ENTER;
 import static org.xmlpull.v1.XmlPullParser.END_TAG;
 import static org.xmlpull.v1.XmlPullParser.START_TAG;
@@ -8,17 +10,21 @@ import static org.xmlpull.v1.XmlPullParser.TEXT;
 import static kirillsemyonkin.keyboardapp.layout.KeyboardLocale.XMLNS_NULL;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.inputmethodservice.InputMethodService;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 
+import androidx.preference.PreferenceManager;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import kirillsemyonkin.keyboardapp.action.AltCharAppendKey;
@@ -34,13 +40,13 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
     private Map<String, Integer> locales;
     private KeyboardLocale locale;
 
-    private Map<String, Integer> parseLocaleList(XmlPullParser parser)
+    public static Map<String, Integer> parseLocaleList(Resources resources, XmlPullParser parser)
         throws XmlPullParserException,
         IOException,
         Resources.NotFoundException {
         parser.require(START_TAG, XMLNS_NULL, "locales");
 
-        var locales = new HashMap<String, Integer>();
+        var locales = new LinkedHashMap<String, Integer>(); // preserve order
         while (parser.next() != END_TAG) {
             parser.require(START_TAG, XMLNS_NULL, "locale");
             parser.next();
@@ -49,8 +55,8 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
             var locale = parser.getText().trim();
             locales.put(
                 locale,
-                getResources()
-                    .getIdentifier(locale, "xml", this.getPackageName()));
+                resources
+                    .getIdentifier(locale, "xml", "kirillsemyonkin.keyboardapp"));
 
             parser.next();
             parser.require(END_TAG, XMLNS_NULL, "locale");
@@ -71,7 +77,7 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
             while (parser.getEventType() != START_TAG
                 || !parser.getName().equals("keyboardLocale"))
                 parser.next();
-            this.locale = KeyboardLocale.parseLocale(parser);
+            this.locale = KeyboardLocale.parseLocale(locale, parser);
             switchMode(this.locale.defaultMode());
         }
     }
@@ -87,7 +93,7 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
             while (parser.getEventType() != START_TAG
                 || !parser.getName().equals("locales"))
                 parser.next();
-            locales = parseLocaleList(parser);
+            locales = parseLocaleList(getResources(), parser);
         } catch (XmlPullParserException | IOException | Resources.NotFoundException e) { // FIXME temp
             e.printStackTrace();
         }
@@ -96,11 +102,7 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
 
     private void defaultInit() {
         composingText = "";
-        try {
-            selectLocale("en_us"); // TODO last lang setting
-        } catch (XmlPullParserException | IOException | NullPointerException e) { // FIXME temp
-            e.printStackTrace();
-        }
+        switchToNextLocale();
     }
 
     private KeyboardAppView view;
@@ -110,7 +112,7 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
         return view
             = ((KeyboardAppView) getLayoutInflater()
             .inflate(
-                R.layout.keyboard_ime_view,
+                R.layout.keyboard_view,
                 null))
             .service(this);
     }
@@ -126,6 +128,28 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
 
     private KeyboardLayout layout;
 
+    public static final String DEFAULT_LOCALE = "en_us";
+
+    public void switchToNextLocale() {
+        var prefs = PreferenceManager
+            .getDefaultSharedPreferences(this);
+
+        var locales = new ArrayList<String>();
+        for (var locale : this.locales.keySet())
+            if (prefs.getBoolean(locale, false))
+                locales.add(locale);
+        if (locales.isEmpty()) locales.add(DEFAULT_LOCALE);
+
+        try {
+            selectLocale(locales
+                .get(locale == null
+                    ? 0
+                    : (locales.indexOf(locale.id()) + 1) % locales.size()));
+        } catch (XmlPullParserException | IOException e) { // FIXME temp
+            e.printStackTrace();
+        }
+    }
+
     public void switchMode(String mode) {
         layout = locale.layout(mode);
         if (view != null) view.invalidate();
@@ -135,31 +159,35 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
         return layout;
     }
 
+    public void openSettings() {
+        var intent = new Intent(this, KeyboardSettingsActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
     //
     // Composing text
     //
 
     private String composingText;
 
-    public String currentComposingText() {
-        return composingText;
-    }
-
-    public void appendToComposingText(char character) {
-        var newComposingText = composingText + character;
-        if (character == ' ') {
-            getCurrentInputConnection()
-                .commitText(newComposingText, newComposingText.length());
-            composingText = "";
-        } else {
-            getCurrentInputConnection()
-                .setComposingText(newComposingText, newComposingText.length());
-            composingText = newComposingText;
+    public void sendCharacter(char character) {
+        switch (character) {
+            case '\b': {
+                sendBackspace();
+                return;
+            }
+            case '\n': {
+                sendEnter();
+                return;
+            }
+            case ' ': {
+                sendSpace();
+                return;
+            }
         }
-    }
 
-    public void backspaceComposingText() {
-        var newComposingText = composingText.substring(0, composingText.length() - 1);
+        var newComposingText = composingText + character;
         getCurrentInputConnection()
             .setComposingText(newComposingText, newComposingText.length());
         composingText = newComposingText;
@@ -172,8 +200,23 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
             .sendKeyEvent(new KeyEvent(ACTION_UP, keycode));
     }
 
-    public void backspaceText() {
-        sendDownUp(KEYCODE_DEL);
+    public void sendSpace() {
+        var newComposingText = composingText + ' ';
+        getCurrentInputConnection()
+            .commitText(newComposingText, newComposingText.length());
+        composingText = "";
+    }
+
+    public void sendBackspace() {
+        if (composingText.isEmpty()) {
+            sendDownUp(KEYCODE_DEL);
+            return;
+        }
+
+        var newComposingText = composingText.substring(0, composingText.length() - 1);
+        getCurrentInputConnection()
+            .setComposingText(newComposingText, newComposingText.length());
+        composingText = newComposingText;
     }
 
     public void sendEnter() {

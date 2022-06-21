@@ -6,19 +6,21 @@ import kirillsemyonkin.keyboardapp.layout.KeyboardLayout;
 public interface KeyboardService {
     void switchMode(String mode);
 
+    void switchToNextLocale();
+
     KeyboardLayout layout();
+
+    void openSettings();
 
     //
     // Composing text
     //
 
-    String currentComposingText();
+    void sendCharacter(char character);
 
-    void appendToComposingText(char character);
+    void sendSpace();
 
-    void backspaceComposingText();
-
-    void backspaceText();
+    void sendBackspace();
 
     void sendEnter();
 

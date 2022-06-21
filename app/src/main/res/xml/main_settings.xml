@@ -1,0 +1,15 @@
+<PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <Preference
+        app:key="languages_main"
+        app:title="@string/languages_main"
+        app:fragment="kirillsemyonkin.keyboardapp.KeyboardSettingsActivity$LanguagesFragment" />
+
+    <ListPreference
+        app:key="type"
+        app:title="@string/type_title"
+        app:entries="@array/type_entries"
+        app:entryValues="@array/type_values"
+        app:defaultValue="standard"
+        app:useSimpleSummaryProvider="true" />
+</PreferenceScreen>

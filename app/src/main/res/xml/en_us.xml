@@ -105,15 +105,23 @@
                 <switch>symbol1</switch>
             </key>
             <key>
+                <icon>language</icon>
+                <language />
+            </key>
+            <key>
                 ,
                 <alt>;&lt;?'</alt>
             </key>
-            <key growthFactor="5">
+            <key growthFactor="3">
                 <icon>space</icon>
             </key>
             <key>
                 .
                 <alt>:&gt;/"</alt>
+            </key>
+            <key>
+                <icon>settings</icon>
+                <settings />
             </key>
             <key growthFactor="1.5">
                 <icon>enter</icon>
@@ -222,15 +230,23 @@
                 <switch>symbol1</switch>
             </key>
             <key>
+                <icon>language</icon>
+                <language />
+            </key>
+            <key>
                 ,
                 <alt>;&lt;?'</alt>
             </key>
-            <key growthFactor="5">
+            <key growthFactor="3">
                 <icon>space</icon>
             </key>
             <key>
                 .
                 <alt>:&gt;/"</alt>
+            </key>
+            <key>
+                <icon>settings</icon>
+                <settings />
             </key>
             <key growthFactor="1.5">
                 <icon>enter</icon>
@@ -319,15 +335,23 @@
                 <switch>lowercase</switch>
             </key>
             <key>
+                <icon>language</icon>
+                <language />
+            </key>
+            <key>
                 ,
                 <alt>;&lt;?'</alt>
             </key>
-            <key growthFactor="5">
+            <key growthFactor="3">
                 <icon>space</icon>
             </key>
             <key>
                 .
                 <alt>:&gt;/"</alt>
+            </key>
+            <key>
+                <icon>settings</icon>
+                <settings />
             </key>
             <key growthFactor="1.5">
                 <icon>enter</icon>
@@ -416,15 +440,23 @@
                 <switch>lowercase</switch>
             </key>
             <key>
+                <icon>language</icon>
+                <language />
+            </key>
+            <key>
                 ,
                 <alt>;&lt;?'</alt>
             </key>
-            <key growthFactor="5">
+            <key growthFactor="3">
                 <icon>space</icon>
             </key>
             <key>
                 .
                 <alt>:&gt;/"</alt>
+            </key>
+            <key>
+                <icon>settings</icon>
+                <settings />
             </key>
             <key growthFactor="1.5">
                 <icon>enter</icon>

@@ -352,7 +352,7 @@ public class KeyboardAppView extends View {
     public void closeAltMenu(int pointer, AltCharAppendKey key) {
         if (currentAltMenu != null
             && currentAltMenu.heldBy(pointer, key)) {
-            service.appendToComposingText(currentAltMenu.selectedCharacter());
+            service.sendCharacter(currentAltMenu.selectedCharacter());
             currentAltMenu = null;
         }
     }

@@ -30,14 +30,20 @@ import kirillsemyonkin.keyboardapp.icon.PlainTextKeyIcon;
 import kirillsemyonkin.keyboardapp.icon.PredefinedKeyIcon;
 
 public final class KeyboardLocale {
+    private final String id;
     private final Map<String, KeyboardLayout> layouts;
     private final String defaultMode;
 
     public static final String XMLNS_NULL = null;
 
-    private KeyboardLocale(Map<String, KeyboardLayout> layouts, String defaultMode) {
+    private KeyboardLocale(String id, Map<String, KeyboardLayout> layouts, String defaultMode) {
+        this.id = id;
         this.layouts = unmodifiableMap(layouts);
         this.defaultMode = defaultMode;
+    }
+
+    public String id() {
+        return id;
     }
 
     public KeyboardLayout layout(String mode) {
@@ -52,7 +58,7 @@ public final class KeyboardLocale {
     // Parse
     //
 
-    public static KeyboardLocale parseLocale(XmlPullParser parser)
+    public static KeyboardLocale parseLocale(String locale, XmlPullParser parser)
         throws XmlPullParserException,
         IOException,
         NumberFormatException,
@@ -93,7 +99,7 @@ public final class KeyboardLocale {
                     }
                 }
 
-        return new KeyboardLocale(layouts, defaultMode);
+        return new KeyboardLocale(locale, layouts, defaultMode);
     }
 
     private static List<KeyboardKey> parseRow(XmlPullParser parser)

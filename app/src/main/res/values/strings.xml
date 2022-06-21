@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">KeyboardApp</string>
-    <string name="keyboard_ime">KeyboardIME</string>
-    <string name="subtype_en_US">English (US)</string>
+    <string name="settings_title">Keyboard Settings</string>
+
+    <!-- Preference Titles -->
+    <string name="languages_main">Languages</string>
+    <string name="keyboard_main">Keyboard Type</string>
+
+    <string name="type_title">Keyboard Type</string>
+
+    <string name="en_us">English (US)</string>
 </resources>
