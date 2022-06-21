@@ -20,52 +20,42 @@ public enum PredefinedKeyIcon implements KeyIcon {
     },
     SHIFT {
         public void draw(Canvas canvas, Resources resources) {
-            @SuppressLint("UseCompatLoadingForDrawables")
-            var icon = resources
-                .getDrawable(
-                    R.drawable.ic_shift,
-                    resources.newTheme());
-            var size = (int) KEY_TEXT.getTextSize();
-            icon.setBounds(-size, -size, size, size);
-            icon.draw(canvas);
+            drawIcon(canvas, resources, R.drawable.ic_shift, 1);
         }
     },
     BACKSPACE {
         public void draw(Canvas canvas, Resources resources) {
-            @SuppressLint("UseCompatLoadingForDrawables")
-            var icon = resources
-                .getDrawable(
-                    R.drawable.ic_backspace,
-                    resources.newTheme());
-            var size = (int) KEY_TEXT.getTextSize();
-            icon.setBounds(-size, -size, size, size);
-            icon.draw(canvas);
+            drawIcon(canvas, resources, R.drawable.ic_backspace, 1);
         }
     },
     ENTER {
         public void draw(Canvas canvas, Resources resources) {
-            @SuppressLint("UseCompatLoadingForDrawables")
-            var icon = resources
-                .getDrawable(
-                    R.drawable.ic_enter,
-                    resources.newTheme());
-            var size = (int) (KEY_TEXT.getTextSize() / 1.2f);
-            icon.setBounds(-size, -size, size, size);
-            icon.draw(canvas);
+            drawIcon(canvas, resources, R.drawable.ic_enter, 0.8f);
         }
     },
     LANGUAGE {
         public void draw(Canvas canvas, Resources resources) {
-            // TODO
+            drawIcon(canvas, resources, R.drawable.ic_language, 1.1f);
         }
     },
     SETTINGS {
         public void draw(Canvas canvas, Resources resources) {
-            // TODO
+            drawIcon(canvas, resources, R.drawable.ic_settings, 0.8f);
         }
     };
 
     public char character() throws UnsupportedOperationException {
         throw new UnsupportedOperationException("<icon> requires a proper action to follow it");
+    }
+
+    public static void drawIcon(Canvas canvas, Resources resources, int icon, float scale) {
+        @SuppressLint("UseCompatLoadingForDrawables")
+        var drawable = resources
+            .getDrawable(
+                icon,
+                resources.newTheme());
+        var size = (int) (KEY_TEXT.getTextSize() * scale);
+        drawable.setBounds(-size, -size, size, size);
+        drawable.draw(canvas);
     }
 }

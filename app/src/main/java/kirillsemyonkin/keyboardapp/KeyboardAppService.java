@@ -102,7 +102,11 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
 
     private void defaultInit() {
         composingText = "";
-        switchToNextLocale();
+        try {
+            selectLocale(DEFAULT_LOCALE);
+        } catch (XmlPullParserException | IOException e) { // FIXME temp
+            e.printStackTrace();
+        }
     }
 
     private KeyboardAppView view;
