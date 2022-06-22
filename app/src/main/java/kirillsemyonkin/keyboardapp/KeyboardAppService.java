@@ -30,6 +30,7 @@ import java.util.Map;
 import kirillsemyonkin.keyboardapp.action.AltCharAppendKey;
 import kirillsemyonkin.keyboardapp.layout.KeyboardLayout;
 import kirillsemyonkin.keyboardapp.layout.KeyboardLocale;
+import kirillsemyonkin.keyboardapp.layout.LayoutRenderer;
 import kirillsemyonkin.keyboardapp.view.KeyboardAppView;
 
 public class KeyboardAppService extends InputMethodService implements KeyboardService {
@@ -134,6 +135,19 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
 
     public static final String DEFAULT_LOCALE = "en_us";
 
+    public LayoutRenderer renderer() {
+        return LayoutRenderer
+            .valueOf(PreferenceManager
+                .getDefaultSharedPreferences(this)
+                .getString("type", "standard")
+                .toUpperCase());
+    }
+
+    public void switchMode(String mode) {
+        layout = locale.layout(mode);
+        if (view != null) view.invalidate();
+    }
+
     public void switchToNextLocale() {
         var prefs = PreferenceManager
             .getDefaultSharedPreferences(this);
@@ -152,11 +166,6 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
         } catch (XmlPullParserException | IOException e) { // FIXME temp
             e.printStackTrace();
         }
-    }
-
-    public void switchMode(String mode) {
-        layout = locale.layout(mode);
-        if (view != null) view.invalidate();
     }
 
     public KeyboardLayout layout() {

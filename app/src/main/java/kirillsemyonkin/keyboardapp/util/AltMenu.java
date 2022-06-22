@@ -20,19 +20,22 @@ public final class AltMenu {
     private final int y;
     private final boolean rightBorderFirst;
     private final int altKeyWidth;
+    private final int altKeyHeight;
 
     public AltMenu(int pointerID,
                    AltCharAppendKey key,
                    int borderX,
                    int y,
                    boolean rightBorderFirst,
-                   int altKeyWidth) {
+                   int altKeyWidth,
+                   int altKeyHeight) {
         this.pointerID = pointerID;
         this.key = key;
         this.borderX = borderX;
         this.y = y;
         this.rightBorderFirst = rightBorderFirst;
         this.altKeyWidth = altKeyWidth;
+        this.altKeyHeight = altKeyHeight;
 
         selectedIndex
             = rightBorderFirst
@@ -98,7 +101,7 @@ public final class AltMenu {
             : (i == 0 ? key.character() : key.altChars()[i - 1]);
     }
 
-    public void draw(Canvas canvas, int keyHeight) {
+    public void draw(Canvas canvas) {
         var left = left();
         var count = 1 + key.altChars().length;
         var totalMenuWidth = altKeyWidth * count;
@@ -108,7 +111,7 @@ public final class AltMenu {
             left + KEY_PADDING,
             y + KEY_PADDING,
             left + totalMenuWidth - KEY_PADDING,
-            y + keyHeight - KEY_PADDING,
+            y + altKeyHeight - KEY_PADDING,
             KEY_CORNER_RADIUS,
             KEY_CORNER_RADIUS,
             KEY_BACKGROUND_DOWN);
@@ -123,7 +126,7 @@ public final class AltMenu {
                     x + KEY_PADDING,
                     y + KEY_PADDING,
                     x + altKeyWidth - KEY_PADDING,
-                    y + keyHeight - KEY_PADDING,
+                    y + altKeyHeight - KEY_PADDING,
                     KEY_CORNER_RADIUS,
                     KEY_CORNER_RADIUS,
                     KEY_BACKGROUND_HIGHLIGHT);
@@ -133,7 +136,7 @@ public final class AltMenu {
             {
                 canvas.translate(
                     x + floorDiv(altKeyWidth, 2),
-                    y + floorDiv(keyHeight, 2));
+                    y + floorDiv(altKeyHeight, 2));
                 PlainTextKeyIcon
                     .drawText(canvas, charAt(i) + "");
             }

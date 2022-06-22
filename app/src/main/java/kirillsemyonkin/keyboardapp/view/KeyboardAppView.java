@@ -25,8 +25,8 @@ import java.util.Map;
 import kirillsemyonkin.keyboardapp.KeyboardService;
 import kirillsemyonkin.keyboardapp.action.AltCharAppendKey;
 import kirillsemyonkin.keyboardapp.action.KeyboardKey;
+import kirillsemyonkin.keyboardapp.layout.LayoutRenderer;
 import kirillsemyonkin.keyboardapp.util.AltMenu;
-import kirillsemyonkin.keyboardapp.util.KeyProjection;
 
 public class KeyboardAppView extends View {
     public static final int KEY_CORNER_RADIUS = 15;
@@ -46,6 +46,7 @@ public class KeyboardAppView extends View {
     }
 
     private KeyboardService service;
+    private LayoutRenderer renderer;
 
     public KeyboardAppView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -57,146 +58,52 @@ public class KeyboardAppView extends View {
 
     public KeyboardAppView service(KeyboardService service) {
         this.service = service;
+        renderer = service.renderer();
         return this;
     }
 
-    private KeyboardKey unprojectToKey(int posX, int posY) {
-        var layout = service.layout();
-
-        // Determine row from posY and ensure valid
-        var rows = layout.rowCount();
-        var rowNum = floorDiv(posY * rows, getHeight());
-        var row = layout.row(rowNum);
-        if (row == null) return null;
-
-        // Determine col from posX and ensure valid
-        var cols = row.colCount();
-        var totalGrowthFactor = layout.growthFactor();
-
-        var totalViewWidth = getWidth();
-
-        var rowGrowthFactor = row.growthFactor();
-        if (rowGrowthFactor <= 0) rowGrowthFactor = totalGrowthFactor;
-
-        var widths = new int[cols];
-        int totalKeysWidth = 0;
-        for (var colNum = 0; colNum < cols; colNum++) {
-            var key = row.key(colNum);
-            assert key != null;
-
-            totalKeysWidth
-                += widths[colNum]
-                = (int) floor(totalViewWidth * key.growthFactor() / rowGrowthFactor);
-        }
-
-        for (int colNum = 0, x = floorDiv(totalViewWidth - totalKeysWidth, 2); colNum < cols; x += widths[colNum++])
-            if (x <= posX && posX < x + widths[colNum])
-                return row.key(colNum);
-
-        return null;
-    }
-
-    private KeyProjection projectFromKey(KeyboardKey key) {
-        var layout = service.layout();
-        var totalGrowthFactor = layout.growthFactor();
-
-        var totalViewWidth = getWidth();
-        var totalViewHeight = getHeight();
-
-        var rows = layout.rowCount();
-        if (rows == 0) return null;
-        var keyHeight = floorDiv(totalViewHeight, rows);
-
-        for (var rowNum = 0; rowNum < rows; rowNum++) {
-            var row = layout.row(rowNum);
-            assert row != null;
-
-            var cols = row.colCount();
-            if (cols == 0) continue;
-
-            var rowGrowthFactor = row.growthFactor();
-            if (rowGrowthFactor <= 0) rowGrowthFactor = totalGrowthFactor;
-
-            var widths = new int[cols];
-            int totalKeysWidth = 0;
-            for (var colNum = 0; colNum < cols; colNum++) {
-                var k = row.key(colNum);
-                assert k != null;
-
-                totalKeysWidth
-                    += widths[colNum]
-                    = (int) floor(totalViewWidth * k.growthFactor() / rowGrowthFactor);
-            }
-
-            for (int colNum = 0, x = floorDiv(totalViewWidth - totalKeysWidth, 2); colNum < cols; x += widths[colNum++])
-                if (key == row.key(colNum))
-                    return new KeyProjection(x, rowNum * keyHeight, widths[colNum]);
-        }
-
-        return null;
-    }
-
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        var screenHeight
-            = getResources()
-            .getDisplayMetrics()
-            .heightPixels;
         setMeasuredDimension(
             getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec), // parent width
-            screenHeight / 2);
+            renderer.viewHeight(getResources(), heightMeasureSpec));
     }
 
     protected void onDraw(Canvas canvas) {
         var layout = service.layout();
-        var totalGrowthFactor = layout.growthFactor();
 
         var totalViewWidth = getWidth();
         var totalViewHeight = getHeight();
 
         var rows = layout.rowCount();
         if (rows == 0) return;
-        var keyHeight = floorDiv(totalViewHeight, rows);
-
-        // In future might be a good idea to find widest key icon
-        //   and use it to make all icons always fit both dimensions
-        KEY_TEXT.setTextSize(keyHeight * KEY_TEXT_FACTOR);
 
         // Draw keys
         for (var rowNum = 0; rowNum < rows; rowNum++) {
             var row = layout.row(rowNum);
             assert row != null;
 
-            var y = rowNum * keyHeight;
-
             var cols = row.colCount();
             if (cols == 0) continue;
 
-            var rowGrowthFactor = row.growthFactor();
-            if (rowGrowthFactor <= 0) rowGrowthFactor = totalGrowthFactor;
-
-            @SuppressLint("DrawAllocation")
-            var widths = new int[cols];
-            int totalKeysWidth = 0;
-            for (var colNum = 0; colNum < cols; colNum++) {
+            for (int colNum = 0; colNum < cols; colNum++) {
                 var key = row.key(colNum);
                 assert key != null;
 
-                totalKeysWidth
-                    += widths[colNum]
-                    = (int) floor(totalViewWidth * key.growthFactor() / rowGrowthFactor);
-            }
+                var projection = renderer.project(
+                    layout,
+                    totalViewWidth, totalViewHeight,
+                    key);
 
-            for (int colNum = 0, x = floorDiv(totalViewWidth - totalKeysWidth, 2); colNum < cols; x += widths[colNum++]) {
-                var keyWidth = widths[colNum];
+                // In future might be a good idea to find widest key icon
+                //   and use it to make all icons always fit both dimensions
+                KEY_TEXT.setTextSize(projection.height() * KEY_TEXT_FACTOR);
 
-                var key = row.key(colNum);
-                assert key != null;
-
+                // Key background
                 canvas.drawRoundRect(
-                    x + KEY_PADDING,
-                    y + KEY_PADDING,
-                    x + keyWidth - KEY_PADDING,
-                    y + keyHeight - KEY_PADDING,
+                    projection.x() + KEY_PADDING,
+                    projection.y() + KEY_PADDING,
+                    projection.x() + projection.width() - KEY_PADDING,
+                    projection.y() + projection.height() - KEY_PADDING,
                     KEY_CORNER_RADIUS,
                     KEY_CORNER_RADIUS,
                     currentlyDownPointers.containsValue(key)
@@ -205,11 +112,12 @@ public class KeyboardAppView extends View {
                         ? KEY_BACKGROUND_HIGHLIGHT
                         : KEY_BACKGROUND));
 
+                // Key icon
                 canvas.save();
                 {
                     canvas.translate(
-                        x + keyWidth / 2f,
-                        y + keyHeight / 2f);
+                        projection.x() + projection.width() / 2f,
+                        projection.y() + projection.height() / 2f);
                     key.icon().draw(canvas, getResources());
                 }
                 canvas.restore();
@@ -218,7 +126,7 @@ public class KeyboardAppView extends View {
 
         // Draw alt chars menu
         if (currentAltMenu != null)
-            currentAltMenu.draw(canvas, keyHeight);
+            currentAltMenu.draw(canvas);
     }
 
     private final Map<Integer, KeyboardKey> currentlyDownPointers = new HashMap<>();
@@ -264,7 +172,11 @@ public class KeyboardAppView extends View {
             // Prepare for tap and long hold
             case ACTION_DOWN: {
                 currentlyDownPointers
-                    .put(pointerID, unprojectToKey(x, y));
+                    .put(pointerID, renderer
+                        .unproject(
+                            service.layout(),
+                            getWidth(), getHeight(),
+                            x, y));
 
                 longPressHandler
                     .sendMessageDelayed(
@@ -299,7 +211,11 @@ public class KeyboardAppView extends View {
                     .hasMessages(
                         LONG_HOLD_MSG_ID,
                         pointerID);
-                var actionKey = unprojectToKey(x, y);
+                var actionKey = renderer
+                    .unproject(
+                        service.layout(),
+                        getWidth(), getHeight(),
+                        x, y);
 
                 if (longHeld)
                     currentlyDown.unhold(service, pointerID);
@@ -334,12 +250,16 @@ public class KeyboardAppView extends View {
             var layout = service.layout();
 
             var totalViewWidth = getWidth();
+            var totalViewHeight = getHeight();
 
             var totalGrowthFactor = layout.growthFactor();
             var altKeyWidth = (int) floor(totalViewWidth / totalGrowthFactor);
             var totalMenuWidth = altKeyWidth * (1 + key.altChars().length);
 
-            var projection = projectFromKey(key);
+            var projection = renderer.project(
+                layout,
+                totalViewWidth, totalViewHeight,
+                key);
             assert projection != null;
 
             var pressedKeyMiddle = projection.x() + floorDiv(projection.width(), 2);
@@ -361,7 +281,8 @@ public class KeyboardAppView extends View {
                 borderX,
                 projection.y(),
                 rightBorderFirst,
-                altKeyWidth);
+                altKeyWidth,
+                projection.height());
         }
     }
 

@@ -4,11 +4,13 @@ public class KeyProjection {
     private final int x;
     private final int y;
     private final int width;
+    private final int height;
 
-    public KeyProjection(int x, int y, int width) {
+    public KeyProjection(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;
+        this.height = height;
     }
 
     public int x() {
@@ -21,5 +23,9 @@ public class KeyProjection {
 
     public int width() {
         return width;
+    }
+
+    public int height() {
+        return height;
     }
 }

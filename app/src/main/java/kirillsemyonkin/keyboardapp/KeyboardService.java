@@ -2,8 +2,11 @@ package kirillsemyonkin.keyboardapp;
 
 import kirillsemyonkin.keyboardapp.action.AltCharAppendKey;
 import kirillsemyonkin.keyboardapp.layout.KeyboardLayout;
+import kirillsemyonkin.keyboardapp.layout.LayoutRenderer;
 
 public interface KeyboardService {
+    LayoutRenderer renderer();
+
     void switchMode(String mode);
 
     void switchToNextLocale();
