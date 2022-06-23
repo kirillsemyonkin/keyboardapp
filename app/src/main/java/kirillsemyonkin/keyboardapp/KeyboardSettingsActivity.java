@@ -55,7 +55,8 @@ public class KeyboardSettingsActivity
         if (getSupportFragmentManager()
             .popBackStackImmediate())
             return true;
-        return super.onSupportNavigateUp();
+        finish();
+        return true;
     }
 
     public boolean onPreferenceStartFragment(PreferenceFragmentCompat caller,
