@@ -4,7 +4,6 @@ import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 import static android.view.MotionEvent.ACTION_DOWN;
 import static android.view.MotionEvent.ACTION_MOVE;
 import static android.view.MotionEvent.ACTION_UP;
-import static java.lang.Math.floor;
 import static java.lang.Math.floorDiv;
 
 import android.annotation.SuppressLint;
@@ -65,7 +64,7 @@ public class KeyboardAppView extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         setMeasuredDimension(
             getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec), // parent width
-            renderer.viewHeight(getResources(), heightMeasureSpec));
+            renderer.viewHeight(getResources(), getSuggestedMinimumHeight(), heightMeasureSpec));
     }
 
     protected void onDraw(Canvas canvas) {
@@ -93,6 +92,7 @@ public class KeyboardAppView extends View {
                     layout,
                     totalViewWidth, totalViewHeight,
                     key);
+                assert projection != null;
 
                 // In future might be a good idea to find widest key icon
                 //   and use it to make all icons always fit both dimensions
@@ -252,24 +252,21 @@ public class KeyboardAppView extends View {
             var totalViewWidth = getWidth();
             var totalViewHeight = getHeight();
 
-            var totalGrowthFactor = layout.growthFactor();
-            var altKeyWidth = (int) floor(totalViewWidth / totalGrowthFactor);
-            var totalMenuWidth = altKeyWidth * (1 + key.altChars().length);
-
             var projection = renderer.project(
                 layout,
                 totalViewWidth, totalViewHeight,
                 key);
             assert projection != null;
 
+            var altKeyWidth = projection.width();
+
             var pressedKeyMiddle = projection.x() + floorDiv(projection.width(), 2);
             var halfAltKeyWidth = floorDiv(altKeyWidth, 2);
-            var ifLeftBorderStart = pressedKeyMiddle - halfAltKeyWidth;
 
-            var borderX = ifLeftBorderStart;
+            var borderX = pressedKeyMiddle - halfAltKeyWidth;
             var rightBorderFirst = false;
             // Ensure alt chars menu fits, else mirror
-            if (ifLeftBorderStart + totalMenuWidth > totalViewWidth) {
+            if (borderX > totalViewWidth / 2) {
                 borderX = pressedKeyMiddle + halfAltKeyWidth;
                 rightBorderFirst = true;
             }

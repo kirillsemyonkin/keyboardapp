@@ -7,6 +7,8 @@ import static kirillsemyonkin.keyboardapp.view.KeyboardAppView.KEY_BACKGROUND_DO
 import static kirillsemyonkin.keyboardapp.view.KeyboardAppView.KEY_BACKGROUND_HIGHLIGHT;
 import static kirillsemyonkin.keyboardapp.view.KeyboardAppView.KEY_CORNER_RADIUS;
 import static kirillsemyonkin.keyboardapp.view.KeyboardAppView.KEY_PADDING;
+import static kirillsemyonkin.keyboardapp.view.KeyboardAppView.KEY_TEXT;
+import static kirillsemyonkin.keyboardapp.view.KeyboardAppView.KEY_TEXT_FACTOR;
 
 import android.graphics.Canvas;
 
@@ -119,6 +121,10 @@ public final class AltMenu {
         // Alt keys
         for (var i = 0; i < count; i++) {
             var x = left + i * altKeyWidth;
+
+            // In future might be a good idea to find widest key icon
+            //   and use it to make all icons always fit both dimensions
+            KEY_TEXT.setTextSize(altKeyHeight * KEY_TEXT_FACTOR);
 
             // Alt key background
             if (i == selectedIndex)

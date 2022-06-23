@@ -17,13 +17,22 @@ public final class KeyboardLayout {
         return rows.size();
     }
 
-    public KeyboardRow row(int row) {
-        return row >= 0 && row < rowCount()
-            ? rows.get(row)
+    public KeyboardRow row(int rowNum) {
+        return rowNum >= 0 && rowNum < rowCount()
+            ? rows.get(rowNum)
             : null;
     }
 
     public float growthFactor() {
         return growthFactor;
+    }
+
+    public float growthFactor(int rowNum) {
+        var row = row(rowNum);
+        if (row == null) return growthFactor();
+        var rowGrowthFactor = row.growthFactor();
+        return rowGrowthFactor <= 0
+            ? growthFactor()
+            : rowGrowthFactor;
     }
 }

@@ -127,6 +127,10 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
         // TODO detect keyboard type from text field type
     }
 
+    public boolean onEvaluateFullscreenMode() {
+        return renderer().fullscreen();
+    }
+
     //
     // State
     //

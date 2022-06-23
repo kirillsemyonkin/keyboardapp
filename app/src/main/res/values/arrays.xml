@@ -1,9 +1,11 @@
 <resources>
     <string-array name="type_entries">
         <item>Standard</item>
+        <item>Big Buttons</item>
     </string-array>
 
     <string-array name="type_values">
         <item>standard</item>
+        <item>big_buttons</item>
     </string-array>
 </resources>
