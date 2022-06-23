@@ -128,7 +128,8 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
     }
 
     public boolean onEvaluateFullscreenMode() {
-        return renderer().fullscreen();
+        return super.onEvaluateFullscreenMode()
+            || renderer().fullscreen();
     }
 
     //
