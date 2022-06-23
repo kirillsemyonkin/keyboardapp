@@ -124,6 +124,7 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
 
     public void onStartInput(EditorInfo attribute, boolean restarting) {
         defaultInit();
+        if (view != null) view.service(this); // update renderer
         // TODO detect keyboard type from text field type
     }
 
