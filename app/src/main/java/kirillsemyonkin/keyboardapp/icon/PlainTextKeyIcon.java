@@ -34,13 +34,14 @@ public class PlainTextKeyIcon implements KeyIcon {
      * @param text   Text to draw.
      */
     public static void drawText(Canvas canvas, String text) {
-        var bounds = new Rect();
-        KEY_TEXT.getTextBounds(text, 0, text.length(), bounds);
-        var metrics = KEY_TEXT.getFontMetrics();
+        var textBounds = new Rect();
+        var xBounds = new Rect();
+        KEY_TEXT.getTextBounds(text, 0, text.length(), textBounds);
+        KEY_TEXT.getTextBounds("x", 0, 1, xBounds);
         canvas.drawText(
             text,
-            -bounds.width() / 2f - bounds.left,
-            -(metrics.top - metrics.bottom) / 4f,
+            -textBounds.width() / 2f - textBounds.left,
+            -xBounds.height() / 2f - xBounds.top,
             KEY_TEXT);
     }
 }
