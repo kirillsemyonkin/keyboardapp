@@ -42,6 +42,11 @@ public enum PredefinedKeyIcon implements KeyIcon {
         public void draw(Canvas canvas, Resources resources) {
             drawIcon(canvas, resources, R.drawable.ic_settings, 0.8f);
         }
+    },
+    HIDE {
+        public void draw(Canvas canvas, Resources resources) {
+            drawIcon(canvas, resources, R.drawable.ic_hide, 1f);
+        }
     };
 
     public char character() throws UnsupportedOperationException {

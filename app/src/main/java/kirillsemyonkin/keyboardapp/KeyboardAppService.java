@@ -184,6 +184,10 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
         startActivity(intent);
     }
 
+    public void hideKeyboard() {
+        requestHideSelf(0);
+    }
+
     //
     // Composing text
     //

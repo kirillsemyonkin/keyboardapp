@@ -15,6 +15,8 @@ public interface KeyboardService {
 
     void openSettings();
 
+    void hideKeyboard();
+
     //
     // Composing text
     //

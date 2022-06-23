@@ -92,6 +92,10 @@
                 <switch>symbol1</switch>
             </key>
             <key>
+                <icon>hide</icon>
+                <hide />
+            </key>
+            <key>
                 <icon>language</icon>
                 <language />
             </key>
@@ -99,7 +103,7 @@
                 ,
                 <alt>;&lt;?'</alt>
             </key>
-            <key growthFactor="3">
+            <key growthFactor="2">
                 <icon>space</icon>
             </key>
             <key>
@@ -207,6 +211,10 @@
                 <switch>symbol1</switch>
             </key>
             <key>
+                <icon>hide</icon>
+                <hide />
+            </key>
+            <key>
                 <icon>language</icon>
                 <language />
             </key>
@@ -214,7 +222,7 @@
                 ,
                 <alt>;&lt;?'</alt>
             </key>
-            <key growthFactor="3">
+            <key growthFactor="2">
                 <icon>space</icon>
             </key>
             <key>
@@ -312,6 +320,10 @@
                 <switch>lowercase</switch>
             </key>
             <key>
+                <icon>hide</icon>
+                <hide />
+            </key>
+            <key>
                 <icon>language</icon>
                 <language />
             </key>
@@ -319,7 +331,7 @@
                 ,
                 <alt>;&lt;?'</alt>
             </key>
-            <key growthFactor="3">
+            <key growthFactor="2">
                 <icon>space</icon>
             </key>
             <key>
@@ -417,6 +429,10 @@
                 <switch>lowercase</switch>
             </key>
             <key>
+                <icon>hide</icon>
+                <hide />
+            </key>
+            <key>
                 <icon>language</icon>
                 <language />
             </key>
@@ -424,7 +440,7 @@
                 ,
                 <alt>;&lt;?'</alt>
             </key>
-            <key growthFactor="3">
+            <key growthFactor="2">
                 <icon>space</icon>
             </key>
             <key>
