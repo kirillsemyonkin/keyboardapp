@@ -35,7 +35,7 @@ import kirillsemyonkin.keyboardapp.layout.LayoutRenderer;
 import kirillsemyonkin.keyboardapp.view.KeyboardAppView;
 
 public class KeyboardAppService extends InputMethodService implements KeyboardService {
-    private static void fail(Exception e) {
+    public static void fail(Exception e) {
         throw new RuntimeException("Application crash", e);
     }
 

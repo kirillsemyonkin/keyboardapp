@@ -2,6 +2,7 @@ package kirillsemyonkin.keyboardapp;
 
 import static org.xmlpull.v1.XmlPullParser.START_TAG;
 
+import static kirillsemyonkin.keyboardapp.KeyboardAppService.fail;
 import static kirillsemyonkin.keyboardapp.KeyboardAppService.parseLocaleList;
 
 import android.content.res.Resources;
@@ -111,8 +112,8 @@ public class KeyboardSettingsActivity
                 }
 
                 setPreferenceScreen(screen);
-            } catch (XmlPullParserException | IOException | Resources.NotFoundException e) { // FIXME temp
-                e.printStackTrace();
+            } catch (XmlPullParserException | IOException | Resources.NotFoundException e) {
+                fail(e);
             }
         }
     }
