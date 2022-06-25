@@ -13,6 +13,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.inputmethodservice.InputMethodService;
+import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -34,9 +35,15 @@ import kirillsemyonkin.keyboardapp.layout.LayoutRenderer;
 import kirillsemyonkin.keyboardapp.view.KeyboardAppView;
 
 public class KeyboardAppService extends InputMethodService implements KeyboardService {
+    private static void fail(Exception e) {
+        throw new RuntimeException("Application crash", e);
+    }
+
     //
     // Locales
     //
+
+    private final String NUMBER_LOCALE = "number";
 
     private Map<String, Integer> locales;
     private KeyboardLocale locale;
@@ -71,7 +78,9 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
         throws XmlPullParserException,
         IOException,
         NullPointerException {
-        var id = locales.get(locale);
+        var id = NUMBER_LOCALE.equals(locale)
+            ? (Integer) R.xml.number
+            : locales.get(locale);
         if (id == null)
             throw new NullPointerException("Unknown locale " + locale);
         try (var parser = getResources().getXml(id)) {
@@ -89,14 +98,13 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
 
     public void onCreate() {
         super.onCreate();
-        //android.os.Debug.waitForDebugger();
         try (var parser = getResources().getXml(R.xml.locales)) {
             while (parser.getEventType() != START_TAG
                 || !parser.getName().equals("locales"))
                 parser.next();
             locales = parseLocaleList(getResources(), parser);
-        } catch (XmlPullParserException | IOException | Resources.NotFoundException e) { // FIXME temp
-            e.printStackTrace();
+        } catch (XmlPullParserException | IOException | Resources.NotFoundException e) {
+            fail(e);
         }
         defaultInit();
     }
@@ -105,8 +113,8 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
         composingText = "";
         try {
             selectLocale(DEFAULT_LOCALE);
-        } catch (XmlPullParserException | IOException e) { // FIXME temp
-            e.printStackTrace();
+        } catch (XmlPullParserException | IOException e) {
+            fail(e);
         }
     }
 
@@ -125,7 +133,14 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
     public void onStartInput(EditorInfo attribute, boolean restarting) {
         defaultInit();
         if (view != null) view.service(this); // update renderer
-        // TODO detect keyboard type from text field type
+        if ((attribute.inputType & InputType.TYPE_CLASS_NUMBER) != 0)
+            try {
+                System.out.println("selecting number locale");
+                selectLocale(NUMBER_LOCALE);
+                System.out.println("selected number locale");
+            } catch (XmlPullParserException | IOException e) {
+                fail(e);
+            }
     }
 
     public boolean onEvaluateFullscreenMode() {
@@ -169,8 +184,8 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
                 .get(locale == null
                     ? 0
                     : (locales.indexOf(locale.id()) + 1) % locales.size()));
-        } catch (XmlPullParserException | IOException e) { // FIXME temp
-            e.printStackTrace();
+        } catch (XmlPullParserException | IOException e) {
+            fail(e);
         }
     }
 

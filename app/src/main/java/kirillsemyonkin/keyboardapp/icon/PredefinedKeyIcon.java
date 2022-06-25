@@ -1,5 +1,6 @@
 package kirillsemyonkin.keyboardapp.icon;
 
+import static kirillsemyonkin.keyboardapp.icon.PlainTextKeyIcon.drawText;
 import static kirillsemyonkin.keyboardapp.view.KeyboardAppView.KEY_TEXT;
 
 import android.annotation.SuppressLint;
@@ -11,7 +12,15 @@ import kirillsemyonkin.keyboardapp.R;
 public enum PredefinedKeyIcon implements KeyIcon {
     SPACE {
         public void draw(Canvas canvas, Resources resources) {
-            // can do a ␣
+        }
+
+        public char character() {
+            return ' ';
+        }
+    },
+    SPACE_ALT {
+        public void draw(Canvas canvas, Resources resources) {
+            drawText(canvas, "␣");
         }
 
         public char character() {

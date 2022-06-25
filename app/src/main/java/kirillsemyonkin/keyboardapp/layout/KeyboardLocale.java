@@ -184,7 +184,7 @@ public final class KeyboardLocale {
         var growthFactor
             = growthFactorOpt == null
             ? 1
-            : max(1, parseFloat(growthFactorOpt)); // early parse
+            : max(0, parseFloat(growthFactorOpt)); // early parse
 
         var highlightOpt = parser.getAttributeValue(XMLNS_NULL, "highlight");
         var highlight = parseBoolean(highlightOpt);

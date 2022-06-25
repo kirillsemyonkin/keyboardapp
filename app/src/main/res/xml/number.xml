@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<keyboardLocale
+    defaultMode="number">
+    <layout mode="number">
+        <row>
+            <key>1</key>
+            <key>2</key>
+            <key>3</key>
+            <key>
+                -
+                <alt>+</alt>
+            </key>
+        </row>
+        <row>
+            <key>4</key>
+            <key>5</key>
+            <key>6</key>
+            <key>,</key>
+        </row>
+        <row>
+            <key>7</key>
+            <key>8</key>
+            <key>9</key>
+            <key>
+                <icon>backspace</icon>
+                <backspace />
+            </key>
+        </row>
+        <row>
+            <key growthFactor="0.5">
+                <icon>hide</icon>
+                <hide />
+            </key>
+            <key growthFactor="0.5">.</key>
+            <key>0</key>
+            <key growthFactor="0.5">
+                <icon>space_alt</icon>
+            </key>
+            <key growthFactor="0.5">
+                <icon>settings</icon>
+                <settings />
+            </key>
+            <key>
+                <icon>enter</icon>
+                <enter />
+            </key>
+        </row>
+    </layout>
+</keyboardLocale>
