@@ -6,16 +6,13 @@
             <key>1</key>
             <key>2</key>
             <key>3</key>
-            <key>
-                -
-                <alt>+</alt>
-            </key>
+            <key>-</key>
         </row>
         <row>
             <key>4</key>
             <key>5</key>
             <key>6</key>
-            <key>,</key>
+            <key>+</key>
         </row>
         <row>
             <key>7</key>
@@ -31,7 +28,10 @@
                 <icon>hide</icon>
                 <hide />
             </key>
-            <key growthFactor="0.5">.</key>
+            <key growthFactor="0.5">
+                .
+                <alt>,</alt>
+            </key>
             <key>0</key>
             <key growthFactor="0.5">
                 <icon>space_alt</icon>
