@@ -132,7 +132,6 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
 
     public void onStartInput(EditorInfo attribute, boolean restarting) {
         defaultInit();
-        if (view != null) view.service(this); // update renderer
         if ((attribute.inputType & InputType.TYPE_CLASS_NUMBER) != 0)
             try {
                 System.out.println("selecting number locale");
@@ -141,6 +140,7 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
             } catch (XmlPullParserException | IOException e) {
                 fail(e);
             }
+        if (view != null) view.service(this); // update renderer
     }
 
     public boolean onEvaluateFullscreenMode() {

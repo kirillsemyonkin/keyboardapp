@@ -58,6 +58,8 @@ public class KeyboardAppView extends View {
     public KeyboardAppView service(KeyboardService service) {
         this.service = service;
         renderer = service.renderer();
+        currentlyDownPointers.clear();
+        currentAltMenu = null;
         return this;
     }
 
