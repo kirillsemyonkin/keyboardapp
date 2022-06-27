@@ -166,7 +166,10 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
 
     public void switchMode(String mode) {
         layout = locale.layout(mode);
-        if (view != null) view.invalidate();
+        if (view != null) {
+            view.invalidate();
+            view.service(this); // resets press state
+        }
     }
 
     public void switchToNextLocale() {

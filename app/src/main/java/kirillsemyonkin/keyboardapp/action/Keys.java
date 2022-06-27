@@ -54,7 +54,7 @@ public enum Keys {
         }
     },
     HIDE {
-        public KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor, boolean highlight) throws XmlPullParserException, IOException {
+        public KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor, boolean highlight) {
             return new HideKey(icon, growthFactor, highlight);
         }
     };
