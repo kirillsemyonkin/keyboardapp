@@ -2,6 +2,7 @@ package kirillsemyonkin.keyboardapp.action;
 
 import kirillsemyonkin.keyboardapp.KeyboardService;
 import kirillsemyonkin.keyboardapp.icon.KeyIcon;
+import kirillsemyonkin.keyboardapp.util.Highlight;
 
 /**
  * Switch mode key &lt;switch&gt; changes the layout of the keyboard.
@@ -9,7 +10,7 @@ import kirillsemyonkin.keyboardapp.icon.KeyIcon;
 public class SwitchModeKey extends KeyboardKey {
     private final String mode;
 
-    public SwitchModeKey(KeyIcon icon, float growthFactor, boolean highlight,
+    public SwitchModeKey(KeyIcon icon, float growthFactor, Highlight highlight,
                          String mode) {
         super(icon, growthFactor, highlight);
         this.mode = mode;

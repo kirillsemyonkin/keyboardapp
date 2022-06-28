@@ -65,9 +65,9 @@
             <key>э</key>
         </row>
         <row>
-            <key>
+            <key highlight="case">
                 <icon>shift</icon>
-                <switch>uppercase</switch>
+                <shift />
             </key>
             <key>я</key>
             <key>ч</key>
@@ -184,9 +184,9 @@
             <key>Э</key>
         </row>
         <row>
-            <key highlight="true">
+            <key highlight="case">
                 <icon>shift</icon>
-                <switch>lowercase</switch>
+                <shift />
             </key>
             <key>Я</key>
             <key>Ч</key>

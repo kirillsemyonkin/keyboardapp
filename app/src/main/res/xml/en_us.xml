@@ -77,9 +77,9 @@
             <key>l</key>
         </row>
         <row>
-            <key growthFactor="1.5">
+            <key highlight="case" growthFactor="1.5">
                 <icon>shift</icon>
-                <switch>uppercase</switch>
+                <shift />
             </key>
             <key>z</key>
             <key>x</key>
@@ -206,9 +206,9 @@
             <key>L</key>
         </row>
         <row>
-            <key highlight="true" growthFactor="1.5">
+            <key highlight="case" growthFactor="1.5">
                 <icon>shift</icon>
-                <switch>lowercase</switch>
+                <shift />
             </key>
             <key>Z</key>
             <key>X</key>

@@ -2,12 +2,13 @@ package kirillsemyonkin.keyboardapp.action;
 
 import kirillsemyonkin.keyboardapp.KeyboardService;
 import kirillsemyonkin.keyboardapp.icon.KeyIcon;
+import kirillsemyonkin.keyboardapp.util.Highlight;
 
 public class AltCharAppendKey extends KeyboardKey {
     private final char character;
     private final char[] altChars;
 
-    public AltCharAppendKey(KeyIcon icon, float growthFactor, boolean highlight,
+    public AltCharAppendKey(KeyIcon icon, float growthFactor, Highlight highlight,
                             char... altChars) {
         super(icon, growthFactor, highlight);
         this.character = icon.character();

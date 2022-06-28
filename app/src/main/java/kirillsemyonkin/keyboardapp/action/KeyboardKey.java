@@ -2,6 +2,7 @@ package kirillsemyonkin.keyboardapp.action;
 
 import kirillsemyonkin.keyboardapp.KeyboardService;
 import kirillsemyonkin.keyboardapp.icon.KeyIcon;
+import kirillsemyonkin.keyboardapp.util.Highlight;
 
 /**
  * Represents a key button with an action attached to it.
@@ -9,9 +10,9 @@ import kirillsemyonkin.keyboardapp.icon.KeyIcon;
 public abstract class KeyboardKey {
     private final KeyIcon icon;
     private final float growthFactor;
-    private final boolean highlight;
+    private final Highlight highlight;
 
-    protected KeyboardKey(KeyIcon icon, float growthFactor, boolean highlight) {
+    protected KeyboardKey(KeyIcon icon, float growthFactor, Highlight highlight) {
         this.icon = icon;
         this.growthFactor = growthFactor;
         this.highlight = highlight;
@@ -39,7 +40,7 @@ public abstract class KeyboardKey {
     /**
      * Whether should the key background be colored.
      */
-    public boolean highlight() {
+    public Highlight highlight() {
         return highlight;
     }
 

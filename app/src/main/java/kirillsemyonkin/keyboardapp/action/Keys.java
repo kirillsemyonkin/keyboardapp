@@ -9,15 +9,16 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 
 import kirillsemyonkin.keyboardapp.icon.KeyIcon;
+import kirillsemyonkin.keyboardapp.util.Highlight;
 
 public enum Keys {
     BACKSPACE {
-        public KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor, boolean highlight) {
+        public KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor, Highlight highlight) {
             return new BackspaceKey(icon, growthFactor, highlight);
         }
     },
     ALT {
-        public KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor, boolean highlight)
+        public KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor, Highlight highlight)
             throws XmlPullParserException,
             IOException {
             parser.next();
@@ -28,7 +29,7 @@ public enum Keys {
         }
     },
     SWITCH {
-        public KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor, boolean highlight)
+        public KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor, Highlight highlight)
             throws XmlPullParserException,
             IOException {
             parser.next();
@@ -39,27 +40,32 @@ public enum Keys {
         }
     },
     ENTER {
-        public KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor, boolean highlight) {
+        public KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor, Highlight highlight) {
             return new EnterKey(icon, growthFactor, highlight);
         }
     },
     LANGUAGE {
-        public KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor, boolean highlight) {
+        public KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor, Highlight highlight) {
             return new LanguageKey(icon, growthFactor, highlight);
         }
     },
     SETTINGS {
-        public KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor, boolean highlight) {
+        public KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor, Highlight highlight) {
             return new SettingsKey(icon, growthFactor, highlight);
         }
     },
     HIDE {
-        public KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor, boolean highlight) {
+        public KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor, Highlight highlight) {
             return new HideKey(icon, growthFactor, highlight);
+        }
+    },
+    SHIFT {
+        public KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor, Highlight highlight) {
+            return new ShiftKey(icon, growthFactor, highlight);
         }
     };
 
-    public abstract KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor, boolean highlight)
+    public abstract KeyboardKey parse(XmlPullParser parser, KeyIcon icon, float growthFactor, Highlight highlight)
         throws XmlPullParserException,
         IOException;
 }

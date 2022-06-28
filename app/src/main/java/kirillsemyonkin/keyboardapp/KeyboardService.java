@@ -3,6 +3,7 @@ package kirillsemyonkin.keyboardapp;
 import kirillsemyonkin.keyboardapp.action.AltCharAppendKey;
 import kirillsemyonkin.keyboardapp.layout.KeyboardLayout;
 import kirillsemyonkin.keyboardapp.layout.LayoutRenderer;
+import kirillsemyonkin.keyboardapp.util.ShiftCase;
 
 public interface KeyboardService {
     LayoutRenderer renderer();
@@ -36,4 +37,12 @@ public interface KeyboardService {
     void showAltChars(int pointer, AltCharAppendKey key);
 
     void hideAltChars(int pointer, AltCharAppendKey key);
+
+    //
+    // Shift case
+    //
+
+    ShiftCase shift();
+
+    void shift(ShiftCase shift);
 }

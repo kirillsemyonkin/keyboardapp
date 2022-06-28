@@ -3,7 +3,6 @@ package kirillsemyonkin.keyboardapp.layout;
 import static org.xmlpull.v1.XmlPullParser.END_TAG;
 import static org.xmlpull.v1.XmlPullParser.START_TAG;
 import static org.xmlpull.v1.XmlPullParser.TEXT;
-import static java.lang.Boolean.parseBoolean;
 import static java.lang.Float.parseFloat;
 import static java.lang.Math.max;
 import static java.util.Collections.unmodifiableMap;
@@ -25,6 +24,7 @@ import kirillsemyonkin.keyboardapp.action.SwitchModeKey;
 import kirillsemyonkin.keyboardapp.icon.KeyIcon;
 import kirillsemyonkin.keyboardapp.icon.PlainTextKeyIcon;
 import kirillsemyonkin.keyboardapp.icon.PredefinedKeyIcon;
+import kirillsemyonkin.keyboardapp.util.Highlight;
 
 public final class KeyboardLocale {
     private final String id;
@@ -187,7 +187,9 @@ public final class KeyboardLocale {
             : max(0, parseFloat(growthFactorOpt)); // early parse
 
         var highlightOpt = parser.getAttributeValue(XMLNS_NULL, "highlight");
-        var highlight = parseBoolean(highlightOpt);
+        var highlight = highlightOpt == null
+            ? Highlight.FALSE
+            : Highlight.valueOf(highlightOpt.toUpperCase());
 
         var icon = parseIcon(parser);
         return parseAction(parser, icon, growthFactor, highlight);
@@ -216,7 +218,7 @@ public final class KeyboardLocale {
     }
 
     private static KeyboardKey parseAction(XmlPullParser parser,
-                                           KeyIcon icon, float growthFactor, boolean highlight)
+                                           KeyIcon icon, float growthFactor, Highlight highlight)
         throws XmlPullParserException,
         IOException {
         // char</key>

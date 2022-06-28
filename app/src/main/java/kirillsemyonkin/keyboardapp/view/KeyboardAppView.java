@@ -26,6 +26,7 @@ import kirillsemyonkin.keyboardapp.action.AltCharAppendKey;
 import kirillsemyonkin.keyboardapp.action.KeyboardKey;
 import kirillsemyonkin.keyboardapp.layout.LayoutRenderer;
 import kirillsemyonkin.keyboardapp.util.AltMenu;
+import kirillsemyonkin.keyboardapp.util.Highlight;
 
 public class KeyboardAppView extends View {
     public static final int KEY_CORNER_RADIUS = 15;
@@ -33,12 +34,14 @@ public class KeyboardAppView extends View {
     public static final float KEY_TEXT_FACTOR = 0.4f;
 
     public static final Paint KEY_BACKGROUND = new Paint();
+    public static final Paint KEY_BACKGROUND_HIGHLIGHT_HALF = new Paint();
     public static final Paint KEY_BACKGROUND_HIGHLIGHT = new Paint();
     public static final Paint KEY_BACKGROUND_DOWN = new Paint();
     public static final Paint KEY_TEXT = new Paint(ANTI_ALIAS_FLAG);
 
     static {
         KEY_BACKGROUND.setColor(0xFF222222);
+        KEY_BACKGROUND_HIGHLIGHT_HALF.setColor(0xFF274499);
         KEY_BACKGROUND_HIGHLIGHT.setColor(0xFF3366FF);
         KEY_BACKGROUND_DOWN.setColor(0xFF111111);
         KEY_TEXT.setColor(0xFFEEEEEE);
@@ -110,9 +113,7 @@ public class KeyboardAppView extends View {
                     KEY_CORNER_RADIUS,
                     currentlyDownPointers.containsValue(key)
                         ? KEY_BACKGROUND_DOWN
-                        : (key.highlight()
-                        ? KEY_BACKGROUND_HIGHLIGHT
-                        : KEY_BACKGROUND));
+                        : background(key.highlight()));
 
                 // Key icon
                 canvas.save();
@@ -129,6 +130,24 @@ public class KeyboardAppView extends View {
         // Draw alt chars menu
         if (currentAltMenu != null)
             currentAltMenu.draw(canvas);
+    }
+
+    private Paint background(Highlight shift) {
+        switch (shift) {
+            case FALSE:
+                return KEY_BACKGROUND;
+            case TRUE:
+                return KEY_BACKGROUND_HIGHLIGHT;
+            default:
+                switch (service.shift()) {
+                    case LOWERCASE:
+                        return KEY_BACKGROUND;
+                    case UPPERCASE:
+                        return KEY_BACKGROUND_HIGHLIGHT_HALF;
+                    default:
+                        return KEY_BACKGROUND_HIGHLIGHT;
+                }
+        }
     }
 
     private final Map<Integer, KeyboardKey> currentlyDownPointers = new HashMap<>();

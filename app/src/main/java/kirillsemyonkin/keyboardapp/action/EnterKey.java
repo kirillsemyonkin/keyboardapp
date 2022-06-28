@@ -2,9 +2,10 @@ package kirillsemyonkin.keyboardapp.action;
 
 import kirillsemyonkin.keyboardapp.KeyboardService;
 import kirillsemyonkin.keyboardapp.icon.KeyIcon;
+import kirillsemyonkin.keyboardapp.util.Highlight;
 
 public class EnterKey extends KeyboardKey {
-    public EnterKey(KeyIcon icon, float growthFactor, boolean highlight) {
+    public EnterKey(KeyIcon icon, float growthFactor, Highlight highlight) {
         super(icon, growthFactor, highlight);
     }
 

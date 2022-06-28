@@ -8,6 +8,8 @@ import static org.xmlpull.v1.XmlPullParser.END_TAG;
 import static org.xmlpull.v1.XmlPullParser.START_TAG;
 import static org.xmlpull.v1.XmlPullParser.TEXT;
 import static kirillsemyonkin.keyboardapp.layout.KeyboardLocale.XMLNS_NULL;
+import static kirillsemyonkin.keyboardapp.util.ShiftCase.LOWERCASE;
+import static kirillsemyonkin.keyboardapp.util.ShiftCase.UPPERCASE;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -32,6 +34,7 @@ import kirillsemyonkin.keyboardapp.action.AltCharAppendKey;
 import kirillsemyonkin.keyboardapp.layout.KeyboardLayout;
 import kirillsemyonkin.keyboardapp.layout.KeyboardLocale;
 import kirillsemyonkin.keyboardapp.layout.LayoutRenderer;
+import kirillsemyonkin.keyboardapp.util.ShiftCase;
 import kirillsemyonkin.keyboardapp.view.KeyboardAppView;
 
 public class KeyboardAppService extends InputMethodService implements KeyboardService {
@@ -134,9 +137,7 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
         defaultInit();
         if ((attribute.inputType & InputType.TYPE_CLASS_NUMBER) != 0)
             try {
-                System.out.println("selecting number locale");
                 selectLocale(NUMBER_LOCALE);
-                System.out.println("selected number locale");
             } catch (XmlPullParserException | IOException e) {
                 fail(e);
             }
@@ -166,6 +167,7 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
 
     public void switchMode(String mode) {
         layout = locale.layout(mode);
+        shift = ShiftCase.fromMode(mode);
         if (view != null) {
             view.invalidate();
             view.service(this); // resets press state
@@ -232,6 +234,7 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
         getCurrentInputConnection()
             .setComposingText(newComposingText, newComposingText.length());
         composingText = newComposingText;
+        switchToLowercase();
     }
 
     private void sendDownUp(int keycode) {
@@ -246,6 +249,7 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
         getCurrentInputConnection()
             .commitText(newComposingText, newComposingText.length());
         composingText = "";
+        switchToLowercase();
     }
 
     public void sendBackspace() {
@@ -263,7 +267,12 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
     public void sendEnter() {
         sendDownUp(KEYCODE_ENTER);
         composingText = "";
+        switchToLowercase();
     }
+
+    //
+    // Alt chars
+    //
 
     public void showAltChars(int pointer, AltCharAppendKey key) {
         view.openAltMenu(pointer, key);
@@ -271,5 +280,25 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
 
     public void hideAltChars(int pointer, AltCharAppendKey key) {
         view.closeAltMenu(pointer, key);
+    }
+
+    //
+    // Shift
+    //
+
+    private ShiftCase shift = UPPERCASE;
+
+    public ShiftCase shift() {
+        return shift;
+    }
+
+    public void shift(ShiftCase shift) {
+        switchMode(shift.mode());
+        this.shift = shift; // preserve uppercase lock
+        if (view != null) view.invalidate(); // redraw after shift change
+    }
+
+    private void switchToLowercase() {
+        if (shift == UPPERCASE) shift(LOWERCASE);
     }
 }
