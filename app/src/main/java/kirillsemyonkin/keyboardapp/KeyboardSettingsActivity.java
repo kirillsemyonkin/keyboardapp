@@ -1,7 +1,6 @@
 package kirillsemyonkin.keyboardapp;
 
 import static org.xmlpull.v1.XmlPullParser.START_TAG;
-
 import static kirillsemyonkin.keyboardapp.KeyboardAppService.fail;
 import static kirillsemyonkin.keyboardapp.KeyboardAppService.parseLocaleList;
 
@@ -56,7 +55,7 @@ public class KeyboardSettingsActivity
         if (getSupportFragmentManager()
             .popBackStackImmediate())
             return true;
-        finish();
+        finishAffinity();
         return true;
     }
 
