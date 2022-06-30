@@ -40,7 +40,7 @@
             <key>w</key>
             <key>
                 e
-                <alt>éèëêęėē</alt>
+                <alt>èéêëęėē</alt>
             </key>
             <key>r</key>
             <key>t</key>
@@ -51,18 +51,18 @@
             </key>
             <key>
                 i
-                <alt>íïìîįī</alt>
+                <alt>ìíîïįī</alt>
             </key>
             <key>
                 o
-                <alt>óòöôõøœōº</alt>
+                <alt>òóôöõœøōº</alt>
             </key>
             <key>p</key>
         </row>
         <row>
             <key>
                 a
-                <alt>áàäâãåąæāª</alt>
+                <alt>àáâäæãåāª</alt>
             </key>
             <key>s</key>
             <key>d</key>
@@ -72,7 +72,6 @@
             <key>j</key>
             <key>k</key>
             <key>l</key>
-            <key>ñ</key>
         </row>
         <row>
             <key highlight="case" growthFactor="1.5">
@@ -81,16 +80,10 @@
             </key>
             <key>z</key>
             <key>x</key>
-            <key>
-                c
-                <alt>çćč</alt>
-            </key>
+            <key>c</key>
             <key>v</key>
             <key>b</key>
-            <key>
-                n
-                <alt>ñń</alt>
-            </key>
+            <key>n</key>
             <key>m</key>
             <key growthFactor="1.5">
                 <icon>backspace</icon>
@@ -170,29 +163,29 @@
             <key>W</key>
             <key>
                 E
-                <alt>ÉÈËÊĘĖĒ</alt>
+                <alt>ÈÉÊËĘĖĒ</alt>
             </key>
             <key>R</key>
             <key>T</key>
             <key>Y</key>
             <key>
                 U
-                <alt>ÛÜÙÚŪ</alt>
+                <alt>ÙÚÛÜŪ</alt>
             </key>
             <key>
                 I
-                <alt>ÍÏÌÎĮĪ</alt>
+                <alt>ÌÍÎÏĮĪ</alt>
             </key>
             <key>
                 O
-                <alt>ÓÒÖÔÕØŒŌº</alt>
+                <alt>ÒÓÔÖÕŒØŌº</alt>
             </key>
             <key>P</key>
         </row>
         <row>
             <key>
                 A
-                <alt>ÁÀÄÂÃÅĄÆĀª</alt>
+                <alt>ÀÁÂÄÆÃÅĀª</alt>
             </key>
             <key>S</key>
             <key>D</key>
@@ -210,16 +203,10 @@
             </key>
             <key>Z</key>
             <key>X</key>
-            <key>
-                C
-                <alt>ÇĆČ</alt>
-            </key>
+            <key>C</key>
             <key>V</key>
             <key>B</key>
-            <key>
-                N
-                <alt>ÑŃ</alt>
-            </key>
+            <key>N</key>
             <key>M</key>
             <key growthFactor="1.5">
                 <icon>backspace</icon>
