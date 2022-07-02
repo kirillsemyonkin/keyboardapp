@@ -40,12 +40,12 @@
             <key>ц</key>
             <key>у</key>
             <key>к</key>
-            <key>
-                е
-                <alt>ё</alt>
-            </key>
+            <key>е</key>
             <key>н</key>
-            <key>г</key>
+            <key>
+                г
+                <alt>ґ</alt>
+            </key>
             <key>ш</key>
             <key>щ</key>
             <key>з</key>
@@ -53,7 +53,10 @@
         </row>
         <row>
             <key>ф</key>
-            <key>ы</key>
+            <key>
+                і
+                <alt>ї</alt>
+            </key>
             <key>в</key>
             <key>а</key>
             <key>п</key>
@@ -62,7 +65,7 @@
             <key>л</key>
             <key>д</key>
             <key>ж</key>
-            <key>э</key>
+            <key>є</key>
         </row>
         <row>
             <key highlight="case">
@@ -164,7 +167,10 @@
                 <alt>Ё</alt>
             </key>
             <key>Н</key>
-            <key>Г</key>
+            <key>
+                Г
+                <alt>Ґ</alt>
+            </key>
             <key>Ш</key>
             <key>Щ</key>
             <key>З</key>
@@ -172,7 +178,10 @@
         </row>
         <row>
             <key>Ф</key>
-            <key>Ы</key>
+            <key>
+                І
+                <alt>Ї</alt>
+            </key>
             <key>В</key>
             <key>А</key>
             <key>П</key>
@@ -181,7 +190,7 @@
             <key>Л</key>
             <key>Д</key>
             <key>Ж</key>
-            <key>Э</key>
+            <key>Є</key>
         </row>
         <row>
             <key highlight="case">
