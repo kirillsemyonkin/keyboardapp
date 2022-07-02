@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="utf-8"?>
+<keyboardLocale
+    defaultMode="lowercase">
+    <layout mode="lowercase">
+        <row>
+            <key>
+                ۱
+                <alt>1¹½⅓¼⅛</alt>
+            </key>
+            <key>
+                ۲
+                <alt>2²⅔</alt>
+            </key>
+            <key>
+                ۳
+                <alt>3³¾⅜</alt>
+            </key>
+            <key>
+                ۴
+                <alt>4⁴</alt>
+            </key>
+            <key>
+                ۵
+                <alt>5⅝</alt>
+            </key>
+            <key>
+                ۶
+                <alt>6</alt>
+            </key>
+            <key>
+                ۷
+                <alt>7⅞</alt>
+            </key>
+            <key>
+                ۸
+                <alt>8</alt>
+            </key>
+            <key>
+                ۹
+                <alt>9</alt>
+            </key>
+            <key>
+                ۰
+                <alt>0ⁿ∅</alt>
+            </key>
+        </row>
+        <row>
+            <key>
+                ص
+                <alt>ض</alt>
+            </key>
+            <key>
+                ث
+                <alt>&#1611;</alt> <!--fathatan-->
+            </key>
+            <key>ق</key>
+            <key>ف</key>
+            <key>
+                ع
+                <alt>غ</alt>
+            </key>
+            <key>ه</key>
+            <key>خ</key>
+            <key>ح</key>
+            <key>ج</key>
+            <key>چ</key>
+        </row>
+        <row>
+            <key>
+                ش
+                <alt>&#1614;</alt> <!--fatha-->
+            </key>
+            <key>
+                س
+                <alt>&#1615;</alt> <!--damma-->
+            </key>
+            <key>
+                ی
+                <alt>ئ</alt>
+            </key>
+            <key>
+                ب
+                <alt>&#1617;</alt> <!--shadda-->
+            </key>
+            <key>
+                ل
+                <alt>&#1616;</alt> <!--kasra-->
+            </key>
+            <key>
+                ا
+                <alt>آ</alt>
+            </key>
+            <key>ت</key>
+            <key>ن</key>
+            <key>م</key>
+            <key>پ</key>
+        </row>
+        <row>
+            <key highlight="case" growthFactor="1.5">
+                <icon>shift</icon>
+                <shift />
+            </key>
+            <key>
+                ط
+                <alt>ظ</alt>
+            </key>
+            <key>
+                ز
+                <alt>ژ</alt>
+            </key>
+            <key>ر</key>
+            <key>
+                د
+                <alt>ذ</alt>
+            </key>
+            <key>و</key>
+            <key>ک</key>
+            <key>
+                گ
+                <alt>ء</alt>
+            </key>
+            <key growthFactor="1.5">
+                <icon>backspace</icon>
+                <backspace />
+            </key>
+        </row>
+        <row>
+            <key growthFactor="1.5">
+                !#1
+                <switch>symbol1</switch>
+            </key>
+            <key>
+                <icon>hide</icon>
+                <hide />
+            </key>
+            <key>
+                <icon>language</icon>
+                <language />
+            </key>
+            <key>
+                ،
+                <alt>;&lt;?'</alt>
+            </key>
+            <key><icon>space</icon></key>
+            <key><icon>zwnj</icon></key>
+            <key>
+                .
+                <alt>:&gt;/"</alt>
+            </key>
+            <key>
+                <icon>settings</icon>
+                <settings />
+            </key>
+            <key growthFactor="1.5">
+                <icon>enter</icon>
+                <enter />
+            </key>
+        </row>
+    </layout>
+    <layout mode="uppercase">
+        <row>
+            <key>
+                ۱
+                <alt>1¹½⅓¼⅛</alt>
+            </key>
+            <key>
+                ۲
+                <alt>2²⅔</alt>
+            </key>
+            <key>
+                ۳
+                <alt>3³¾⅜</alt>
+            </key>
+            <key>
+                ۴
+                <alt>4⁴</alt>
+            </key>
+            <key>
+                ۵
+                <alt>5⅝</alt>
+            </key>
+            <key>
+                ۶
+                <alt>6</alt>
+            </key>
+            <key>
+                ۷
+                <alt>7⅞</alt>
+            </key>
+            <key>
+                ۸
+                <alt>8</alt>
+            </key>
+            <key>
+                ۹
+                <alt>9</alt>
+            </key>
+            <key>
+                ۰
+                <alt>0ⁿ∅</alt>
+            </key>
+        </row>
+        <row>
+            <key>ض</key>
+            <key>&#1611;</key> <!--fathatan-->
+            <key>ق</key>
+            <key>ف</key>
+            <key>غ</key>
+            <key>ه</key>
+            <key>خ</key>
+            <key>ح</key>
+            <key>ج</key>
+            <key>چ</key>
+        </row>
+        <row>
+            <key>&#1614;</key> <!--fatha-->
+            <key>&#1615;</key> <!--damma-->
+            <key>ئ</key>
+            <key>&#1617;</key> <!--shadda-->
+            <key>&#1616;</key> <!--kasra-->
+            <key>آ</key>
+            <key>ت</key>
+            <key>ن</key>
+            <key>م</key>
+            <key>پ</key>
+        </row>
+        <row>
+            <key highlight="case" growthFactor="1.5">
+                <icon>shift</icon>
+                <shift />
+            </key>
+            <key>ظ</key>
+            <key>ژ</key>
+            <key>ر</key>
+            <key>ذ</key>
+            <key>و</key>
+            <key>ک</key>
+            <key>ء</key>
+            <key growthFactor="1.5">
+                <icon>backspace</icon>
+                <backspace />
+            </key>
+        </row>
+        <row>
+            <key growthFactor="1.5">
+                !#1
+                <switch>symbol1</switch>
+            </key>
+            <key>
+                <icon>hide</icon>
+                <hide />
+            </key>
+            <key>
+                <icon>language</icon>
+                <language />
+            </key>
+            <key>
+                ،
+                <alt>;&lt;?'</alt>
+            </key>
+            <key><icon>space</icon></key>
+            <key><icon>zwnj</icon></key>
+            <key>
+                .
+                <alt>:&gt;/"</alt>
+            </key>
+            <key>
+                <icon>settings</icon>
+                <settings />
+            </key>
+            <key growthFactor="1.5">
+                <icon>enter</icon>
+                <enter />
+            </key>
+        </row>
+    </layout>
+    <layout mode="symbol1">
+        <row>
+            <key>
+                ۱
+                <alt>1¹½⅓¼⅛</alt>
+            </key>
+            <key>
+                ۲
+                <alt>2²⅔</alt>
+            </key>
+            <key>
+                ۳
+                <alt>3³¾⅜</alt>
+            </key>
+            <key>
+                ۴
+                <alt>4⁴</alt>
+            </key>
+            <key>
+                ۵
+                <alt>5⅝</alt>
+            </key>
+            <key>
+                ۶
+                <alt>6</alt>
+            </key>
+            <key>
+                ۷
+                <alt>7⅞</alt>
+            </key>
+            <key>
+                ۸
+                <alt>8</alt>
+            </key>
+            <key>
+                ۹
+                <alt>9</alt>
+            </key>
+            <key>
+                ۰
+                <alt>0ⁿ∅</alt>
+            </key>
+        </row>
+        <row>
+            <key>+</key>
+            <key>×</key>
+            <key>÷</key>
+            <key>=</key>
+            <key>/</key>
+            <key>_</key>
+            <key>€</key>
+            <key>£</key>
+            <key>¥</key>
+            <key>₽</key>
+        </row>
+        <row>
+            <key>!</key>
+            <key>@</key>
+            <key>#</key>
+            <key>$</key>
+            <key>%</key>
+            <key>^</key>
+            <key>&amp;</key>
+            <key>*</key>
+            <key>(</key>
+            <key>)</key>
+        </row>
+        <row>
+            <key growthFactor="1.5">
+                1/2
+                <switch>symbol2</switch>
+            </key>
+            <key>-</key>
+            <key>'</key>
+            <key>"</key>
+            <key>:</key>
+            <key>;</key>
+            <key>,</key>
+            <key>?</key>
+            <key growthFactor="1.5">
+                <icon>backspace</icon>
+                <backspace />
+            </key>
+        </row>
+        <row>
+            <key highlight="true" growthFactor="1.5">
+                اب
+                <switch>lowercase</switch>
+            </key>
+            <key>
+                <icon>hide</icon>
+                <hide />
+            </key>
+            <key>
+                <icon>language</icon>
+                <language />
+            </key>
+            <key>
+                ،
+                <alt>;&lt;?'</alt>
+            </key>
+            <key><icon>space</icon></key>
+            <key><icon>zwnj</icon></key>
+            <key>
+                .
+                <alt>:&gt;/"</alt>
+            </key>
+            <key>
+                <icon>settings</icon>
+                <settings />
+            </key>
+            <key growthFactor="1.5">
+                <icon>enter</icon>
+                <enter />
+            </key>
+        </row>
+    </layout>
+    <layout mode="symbol2">
+        <row>
+            <key>
+                1
+                <alt>۱¹½⅓¼⅛</alt>
+            </key>
+            <key>
+                2
+                <alt>۲²⅔</alt>
+            </key>
+            <key>
+                3
+                <alt>۳³¾⅜</alt>
+            </key>
+            <key>
+                4
+                <alt>۴⁴</alt>
+            </key>
+            <key>
+                5
+                <alt>۵⅝</alt>
+            </key>
+            <key>
+                6
+                <alt>۶</alt>
+            </key>
+            <key>
+                7
+                <alt>۷⅞</alt>
+            </key>
+            <key>
+                8
+                <alt>۸</alt>
+            </key>
+            <key>
+                9
+                <alt>۹</alt>
+            </key>
+            <key>
+                0
+                <alt>۰ⁿ∅</alt>
+            </key>
+        </row>
+        <row>
+            <key>`</key>
+            <key>~</key>
+            <key>\</key>
+            <key>|</key>
+            <key>&lt;</key>
+            <key>&gt;</key>
+            <key>{</key>
+            <key>}</key>
+            <key>[</key>
+            <key>]</key>
+        </row>
+        <row>
+            <key>°</key>
+            <key>•</key>
+            <key>○</key>
+            <key>●</key>
+            <key>□</key>
+            <key>■</key>
+            <key>♤</key>
+            <key>♡</key>
+            <key>♢</key>
+            <key>♧</key>
+        </row>
+        <row>
+            <key highlight="true" growthFactor="1.5">
+                2/2
+                <switch>symbol1</switch>
+            </key>
+            <key>☆</key>
+            <key>▪</key>
+            <key>¤</key>
+            <key>«</key>
+            <key>»</key>
+            <key>¡</key>
+            <key>¿</key>
+            <key growthFactor="1.5">
+                <icon>backspace</icon>
+                <backspace />
+            </key>
+        </row>
+        <row>
+            <key highlight="true" growthFactor="1.5">
+                اب
+                <switch>lowercase</switch>
+            </key>
+            <key>
+                <icon>hide</icon>
+                <hide />
+            </key>
+            <key>
+                <icon>language</icon>
+                <language />
+            </key>
+            <key>
+                ،
+                <alt>;&lt;?'</alt>
+            </key>
+            <key><icon>space</icon></key>
+            <key><icon>zwnj</icon></key>
+            <key>
+                .
+                <alt>:&gt;/"</alt>
+            </key>
+            <key>
+                <icon>settings</icon>
+                <settings />
+            </key>
+            <key growthFactor="1.5">
+                <icon>enter</icon>
+                <enter />
+            </key>
+        </row>
+    </layout>
+</keyboardLocale>
