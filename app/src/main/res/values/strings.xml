@@ -18,4 +18,5 @@
     <string name="sk_sk">Slovenčina</string>
     <string name="tr_tr">Türkçe</string>
     <string name="pl_pl">Polski</string>
+    <string name="cs_cz">Čeština (Qwertz)</string>
 </resources>
