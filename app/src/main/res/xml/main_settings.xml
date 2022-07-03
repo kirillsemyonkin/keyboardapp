@@ -3,7 +3,7 @@
     <Preference
         app:key="languages_main"
         app:title="@string/languages_main"
-        app:fragment="kirillsemyonkin.keyboardapp.KeyboardSettingsActivity$LanguagesFragment" />
+        app:fragment="kirillsemyonkin.keyboardapp.view.KeyboardSettingsActivity$LanguagesFragment" />
 
     <ListPreference
         app:key="type"

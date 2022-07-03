@@ -4,7 +4,6 @@ import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 import static android.view.MotionEvent.ACTION_DOWN;
 import static android.view.MotionEvent.ACTION_MOVE;
 import static android.view.MotionEvent.ACTION_UP;
-import static java.lang.Math.floorDiv;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -25,7 +24,6 @@ import kirillsemyonkin.keyboardapp.KeyboardService;
 import kirillsemyonkin.keyboardapp.action.AltCharAppendKey;
 import kirillsemyonkin.keyboardapp.action.KeyboardKey;
 import kirillsemyonkin.keyboardapp.layout.LayoutRenderer;
-import kirillsemyonkin.keyboardapp.util.AltMenu;
 import kirillsemyonkin.keyboardapp.util.Highlight;
 
 public class KeyboardAppView extends View {
@@ -38,6 +36,7 @@ public class KeyboardAppView extends View {
     public static final Paint KEY_BACKGROUND_HIGHLIGHT = new Paint();
     public static final Paint KEY_BACKGROUND_DOWN = new Paint();
     public static final Paint KEY_TEXT = new Paint(ANTI_ALIAS_FLAG);
+    public static final Paint DARKEN = new Paint();
 
     static {
         KEY_BACKGROUND.setColor(0xFF222222);
@@ -45,6 +44,7 @@ public class KeyboardAppView extends View {
         KEY_BACKGROUND_HIGHLIGHT.setColor(0xFF3366FF);
         KEY_BACKGROUND_DOWN.setColor(0xFF111111);
         KEY_TEXT.setColor(0xFFEEEEEE);
+        DARKEN.setColor(0x77000000);
     }
 
     private KeyboardService service;
@@ -128,8 +128,13 @@ public class KeyboardAppView extends View {
         }
 
         // Draw alt chars menu
-        if (currentAltMenu != null)
+        if (currentAltMenu != null) {
+            canvas.drawRect(
+                0, 0,
+                totalViewWidth, totalViewHeight,
+                DARKEN);
             currentAltMenu.draw(canvas);
+        }
     }
 
     private Paint background(Highlight shift) {
@@ -216,7 +221,7 @@ public class KeyboardAppView extends View {
 
                 currentAltMenu
                     .selectedIndex(currentAltMenu
-                        .unprojectIndex(x));
+                        .unprojectIndex(x, y));
 
                 break;
             }
@@ -279,27 +284,21 @@ public class KeyboardAppView extends View {
                 key);
             assert projection != null;
 
-            var altKeyWidth = projection.width();
-
-            var pressedKeyMiddle = projection.x() + floorDiv(projection.width(), 2);
-            var halfAltKeyWidth = floorDiv(altKeyWidth, 2);
-
-            var borderX = pressedKeyMiddle - halfAltKeyWidth;
-            var rightBorderFirst = false;
-            // Ensure alt chars menu fits, else mirror
-            if (borderX > totalViewWidth / 2) {
-                borderX = pressedKeyMiddle + halfAltKeyWidth;
-                rightBorderFirst = true;
-            }
+            var horizontalDirectionRight
+                = projection.x() < totalViewWidth / 2;
 
             cancelLongPressPointer(pointer);
             currentAltMenu = new AltMenu(
                 pointer,
                 key,
-                borderX,
+                projection.x(),
                 projection.y(),
-                rightBorderFirst,
-                altKeyWidth,
+                horizontalDirectionRight,
+                (horizontalDirectionRight
+                    ? projection.x() + (key.altChars().length + 1) * projection.width() > totalViewWidth
+                    : projection.x() - key.altChars().length * projection.width() < 0)
+                    ? 2 : 1,
+                projection.width(),
                 projection.height());
         }
     }

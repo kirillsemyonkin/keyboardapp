@@ -1,4 +1,4 @@
-package kirillsemyonkin.keyboardapp.util;
+package kirillsemyonkin.keyboardapp.view;
 
 import static java.lang.Math.floorDiv;
 import static java.lang.Math.max;
@@ -18,31 +18,29 @@ import kirillsemyonkin.keyboardapp.icon.PlainTextKeyIcon;
 public final class AltMenu {
     private final int pointerID;
     private final AltCharAppendKey key;
-    private final int borderX;
-    private final int y;
-    private final boolean rightBorderFirst;
+    private final int baseKeyX;
+    private final int baseKeyY;
+    private final boolean horizontalDirectionRight;
+    private final int rows;
     private final int altKeyWidth;
     private final int altKeyHeight;
 
     public AltMenu(int pointerID,
                    AltCharAppendKey key,
-                   int borderX,
-                   int y,
-                   boolean rightBorderFirst,
+                   int baseKeyX,
+                   int baseKeyY,
+                   boolean horizontalDirectionRight,
+                   int rows,
                    int altKeyWidth,
                    int altKeyHeight) {
         this.pointerID = pointerID;
         this.key = key;
-        this.borderX = borderX;
-        this.y = y;
-        this.rightBorderFirst = rightBorderFirst;
+        this.baseKeyX = baseKeyX;
+        this.baseKeyY = baseKeyY;
+        this.horizontalDirectionRight = horizontalDirectionRight;
+        this.rows = rows;
         this.altKeyWidth = altKeyWidth;
         this.altKeyHeight = altKeyHeight;
-
-        selectedIndex
-            = rightBorderFirst
-            ? key.altChars().length
-            : 0;
     }
 
     public int pointerID() {
@@ -53,22 +51,16 @@ public final class AltMenu {
         return key;
     }
 
-    public int borderX() {
-        return borderX;
+    public int baseKeyX() {
+        return baseKeyX;
     }
 
-    public int left() {
-        return rightBorderFirst
-            ? borderX - altKeyWidth * (1 + key.altChars().length)
-            : borderX;
+    public int baseKeyY() {
+        return baseKeyY;
     }
 
-    public int y() {
-        return y;
-    }
-
-    public boolean rightBorderFirst() {
-        return rightBorderFirst;
+    public boolean horizontalDirectionRight() {
+        return horizontalDirectionRight;
     }
 
     public boolean heldBy(int pointer) {
@@ -77,6 +69,28 @@ public final class AltMenu {
 
     public boolean heldBy(int pointer, AltCharAppendKey key) {
         return heldBy(pointer) && this.key == key;
+    }
+
+    //
+    // Utils
+    //
+
+    public int count() {
+        return 1 + key.altChars().length;
+    }
+
+    public int keysPerRow() {
+        return floorDiv(count() + rows - 1, rows);
+    }
+
+    public int left() {
+        return horizontalDirectionRight
+            ? baseKeyX
+            : baseKeyX - (keysPerRow() - 1) * altKeyWidth;
+    }
+
+    public int top() {
+        return baseKeyY;
     }
 
     //
@@ -90,37 +104,46 @@ public final class AltMenu {
         return this;
     }
 
-    public int unprojectIndex(int x) {
-        var left = left();
-        var count = 1 + key.altChars().length;
-        var index = floorDiv(x - left, altKeyWidth);
-        return max(0, min(count - 1, index));
+    public int unprojectIndex(int x, int y) {
+        var count = count();
+        var keysPerRow = keysPerRow();
+        var colRightwards = floorDiv(x - baseKeyX, altKeyWidth);
+        var col = max(0, min(keysPerRow - 1, colRightwards * (horizontalDirectionRight ? 1 : -1)));
+        var row = max(0, min(rows - 1, floorDiv(y - baseKeyY, altKeyHeight)));
+        return max(0, min(count - 1, row * keysPerRow + col));
     }
 
     public char charAt(int i) {
-        return rightBorderFirst
-            ? (i == key.altChars().length ? key.character() : key.altChars()[i])
-            : (i == 0 ? key.character() : key.altChars()[i - 1]);
+        return i == 0
+            ? key.character()
+            : key.altChars()[i - 1];
     }
 
     public void draw(Canvas canvas) {
+        var count = count();
+        var keysPerRow = keysPerRow();
+        var totalMenuWidth = altKeyWidth * keysPerRow;
+
         var left = left();
-        var count = 1 + key.altChars().length;
-        var totalMenuWidth = altKeyWidth * count;
+        var top = top();
 
         // Menu background
         canvas.drawRoundRect(
             left + KEY_PADDING,
-            y + KEY_PADDING,
+            top + KEY_PADDING,
             left + totalMenuWidth - KEY_PADDING,
-            y + altKeyHeight - KEY_PADDING,
+            top + altKeyHeight * rows - KEY_PADDING,
             KEY_CORNER_RADIUS,
             KEY_CORNER_RADIUS,
             KEY_BACKGROUND_DOWN);
 
         // Alt keys
         for (var i = 0; i < count; i++) {
-            var x = left + i * altKeyWidth;
+            var col = i % keysPerRow;
+            var row = i / keysPerRow;
+
+            var x = baseKeyX + col * altKeyWidth * (horizontalDirectionRight ? 1 : -1);
+            var y = baseKeyY + row * altKeyHeight;
 
             // In future might be a good idea to find widest key icon
             //   and use it to make all icons always fit both dimensions

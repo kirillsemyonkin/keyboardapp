@@ -36,6 +36,7 @@ import kirillsemyonkin.keyboardapp.layout.KeyboardLocale;
 import kirillsemyonkin.keyboardapp.layout.LayoutRenderer;
 import kirillsemyonkin.keyboardapp.util.ShiftCase;
 import kirillsemyonkin.keyboardapp.view.KeyboardAppView;
+import kirillsemyonkin.keyboardapp.view.KeyboardSettingsActivity;
 
 public class KeyboardAppService extends InputMethodService implements KeyboardService {
     public static void fail(Exception e) {

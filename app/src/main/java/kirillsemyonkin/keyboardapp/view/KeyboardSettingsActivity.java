@@ -1,4 +1,4 @@
-package kirillsemyonkin.keyboardapp;
+package kirillsemyonkin.keyboardapp.view;
 
 import static org.xmlpull.v1.XmlPullParser.START_TAG;
 import static kirillsemyonkin.keyboardapp.KeyboardAppService.fail;
@@ -15,6 +15,8 @@ import androidx.preference.SwitchPreferenceCompat;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+
+import kirillsemyonkin.keyboardapp.R;
 
 public class KeyboardSettingsActivity
     extends AppCompatActivity
