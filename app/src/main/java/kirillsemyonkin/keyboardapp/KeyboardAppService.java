@@ -150,6 +150,23 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
             || renderer().fullscreen();
     }
 
+    public void onUpdateSelection(int oldSelStart, int oldSelEnd,
+                                  int newSelStart, int newSelEnd,
+                                  int candidatesStart, int candidatesEnd) {
+        super.onUpdateSelection(
+            oldSelStart, oldSelEnd,
+            newSelStart, newSelEnd,
+            candidatesStart, candidatesEnd);
+
+        if (composingText.length() > 0
+            && (newSelStart != candidatesEnd || newSelEnd != candidatesEnd)) {
+            getCurrentInputConnection()
+                .finishComposingText();
+            composingText = "";
+            view.invalidate();
+        }
+    }
+
     //
     // State
     //
@@ -233,7 +250,7 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
 
         var newComposingText = composingText + character;
         getCurrentInputConnection()
-            .setComposingText(newComposingText, newComposingText.length());
+            .setComposingText(newComposingText, 1);
         composingText = newComposingText;
         switchToLowercase();
     }
@@ -248,7 +265,7 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
     public void sendSpace() {
         var newComposingText = composingText + ' ';
         getCurrentInputConnection()
-            .commitText(newComposingText, newComposingText.length());
+            .commitText(newComposingText, 1);
         composingText = "";
         switchToLowercase();
     }
@@ -261,7 +278,7 @@ public class KeyboardAppService extends InputMethodService implements KeyboardSe
 
         var newComposingText = composingText.substring(0, composingText.length() - 1);
         getCurrentInputConnection()
-            .setComposingText(newComposingText, newComposingText.length());
+            .setComposingText(newComposingText, 1);
         composingText = newComposingText;
     }
 
